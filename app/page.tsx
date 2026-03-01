@@ -1,65 +1,277 @@
-import Image from "next/image";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  ArrowRight, Shield, Award, Clock, Zap, ChevronRight,
+  Phone, MessageCircle, CheckCircle
+} from 'lucide-react';
+import { ENTITY_DATA, CONTACT_DATA, PRODUCT_CATEGORIES_FALLBACK, SEO_DEFAULTS, DISPLAY_CATEGORIES } from '@/app/config';
+import { getProducts, getCategories } from '@/lib/wordpress';
+import { ProductCard } from '@/components/products/ProductCard';
+import { HeroCarousel } from '@/components/shared/HeroCarousel';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: SEO_DEFAULTS.defaultTitle,
+  description: SEO_DEFAULTS.defaultDescription,
+};
+
+export const revalidate = 3600;
+
+const iconMap: Record<string, React.ReactNode> = {
+  'shield-check': <Shield className="w-7 h-7" />,
+  target: (
+    <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" />
+    </svg>
+  ),
+  handshake: (
+    <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.78L12 21l7.65-7.99.77-.78a5.4 5.4 0 0 0 0-7.65z" />
+    </svg>
+  ),
+  zap: <Zap className="w-7 h-7" />,
+};
+
+export default async function HomePage() {
+  // Fetch featured products (first 4)
+  const allProducts = await getProducts();
+  const featuredProducts = allProducts.filter((p) => p.featured).slice(0, 4);
+  const displayProducts = featuredProducts.length > 0 ? featuredProducts : allProducts.slice(0, 4);
+
+  // Fetch and filter Categories based on config
+  const wpCategories = await getCategories();
+  const categoryCards = DISPLAY_CATEGORIES.map(name => {
+    const wpCat = wpCategories.find(c => c.name === name);
+    const fbCat = PRODUCT_CATEGORIES_FALLBACK.find(c => c.name === name);
+    return {
+      slug: wpCat?.slug || fbCat?.slug || '',
+      name: name,
+      description: wpCat?.description || fbCat?.description || '',
+      image: wpCat?.image || fbCat?.image || `https://via.placeholder.com/400x300?text=${encodeURIComponent(name)}`,
+      color: fbCat?.color || 'var(--color-primary)'
+    }
+  }).filter(c => c.slug);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* ============================================================
+          HERO SECTION
+      ============================================================ */}
+      <HeroCarousel />
+
+      {/* ============================================================
+          STATS STRIP
+      ============================================================ */}
+      <section className="bg-white border-b border-[var(--color-border)]">
+        <div className="container-site py-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {ENTITY_DATA.stats.map((stat) => (
+              <div key={stat.label} className="text-center">
+                <p className="font-black text-3xl lg:text-4xl text-[var(--color-primary)] leading-none mb-1">
+                  {stat.value}
+                </p>
+                <p className="text-sm text-[var(--color-text-muted)] font-medium leading-snug">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* ============================================================
+          PRODUCT CATEGORIES
+      ============================================================ */}
+      <section className="section-padding bg-[var(--color-bg)]">
+        <div className="container-site">
+          <div className="text-center mb-12">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
+              Nuestras Categorías
+            </span>
+            <h2 className="section-title mb-4">
+              Catálogo Especializado
+            </h2>
+            <p className="section-subtitle mx-auto">
+              Líneas de producto diseñadas para los más altos estándares quirúrgicos. Trauma, ortopedia, instrumentación y rehabilitación.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {categoryCards.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/productos?categoria=${cat.slug}`}
+                className="group relative flex flex-col p-0 bg-white rounded-2xl border border-[var(--color-border)] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+              >
+                {/* Accent stripe */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-1 z-10 transition-all duration-300"
+                  style={{ background: cat.color }}
+                />
+
+                {/* Image Header */}
+                <div className="relative w-full aspect-[4/3] bg-gray-100 border-b border-[var(--color-border)]">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  {/* Subtle overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+
+                <div className="p-6 flex flex-col flex-1 gap-3">
+                  <div>
+                    <h3 className="font-bold text-[var(--color-text)] text-lg mb-1 group-hover:text-[var(--color-primary)] transition-colors">
+                      {cat.name}
+                    </h3>
+                    {cat.description && (
+                      <p className="text-sm text-[var(--color-text-muted)] line-clamp-2 leading-relaxed">
+                        {cat.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div
+                    className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider mt-auto"
+                    style={{ color: cat.color.includes('var') ? undefined : cat.color }}
+                  >
+                    Ver productos
+                    <ChevronRight size={14} />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* ============================================================
+          FEATURED PRODUCTS
+      ============================================================ */}
+      {displayProducts.length > 0 && (
+        <section className="section-padding bg-[var(--color-surface-alt)]">
+          <div className="container-site">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 block">
+                  Destacados
+                </span>
+                <h2 className="section-title">Productos Seleccionados</h2>
+              </div>
+              <Link
+                href="/productos"
+                className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold text-sm hover:underline shrink-0"
+              >
+                Ver catálogo completo
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {displayProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ============================================================
+          VALUES / BY SECTION
+      ============================================================ */}
+      <section className="section-padding bg-white">
+        <div className="container-site">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+            {/* Left text */}
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
+                ¿Por qué Orthomaster?
+              </span>
+              <h2 className="section-title mb-5">
+                Calidad y Confianza en cada Procedimiento
+              </h2>
+              <p className="text-[var(--color-text-muted)] text-base leading-relaxed mb-8">
+                {ENTITY_DATA.bio}
+              </p>
+              <Link
+                href="/nosotros"
+                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-bold rounded-xl hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300"
+              >
+                Conoce más sobre nosotros
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            {/* Right values grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {ENTITY_DATA.values.map((value) => (
+                <div
+                  key={value.title}
+                  className="flex flex-col gap-3 p-5 bg-[var(--color-bg)] rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:shadow-md transition-all duration-300"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white shadow-md">
+                    {iconMap[value.icon] ?? <Award className="w-6 h-6" />}
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[var(--color-text)] mb-1">{value.title}</h3>
+                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">{value.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================
+          CTA BANNER
+      ============================================================ */}
+      <section className="section-padding bg-gradient-to-r from-[#0F3460] to-[#1A5276] text-white relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute right-0 top-0 h-full w-96 opacity-10">
+          <svg viewBox="0 0 200 200" fill="none">
+            <circle cx="160" cy="40" r="100" stroke="white" strokeWidth="1" />
+            <circle cx="160" cy="40" r="70" stroke="white" strokeWidth="1" />
+            <circle cx="160" cy="40" r="40" stroke="white" strokeWidth="1" />
+          </svg>
+        </div>
+
+        <div className="container-site relative z-10">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#00A3E0] mb-4 block">
+              Contáctanos Hoy
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black mb-5 leading-tight">
+              ¿Buscas un producto específico o necesitas asesoría especializada?
+            </h2>
+            <p className="text-blue-200 text-base mb-8 leading-relaxed">
+              Nuestro equipo de especialistas está listo para ayudarte a encontrar el equipamiento
+              ideal para tu institución o práctica médica.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#25D366] text-white font-bold rounded-xl hover:bg-[#1DA851] transition-all duration-300 shadow-lg hover:-translate-y-0.5"
+              >
+                <MessageCircle size={20} />
+                WhatsApp Urgencias
+              </a>
+              <Link
+                href="/contacto"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-white/10 border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
+              >
+                <Phone size={18} />
+                Formulario de Contacto
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
