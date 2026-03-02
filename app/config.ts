@@ -218,17 +218,17 @@ export const CONTACT_DATA = {
 
 export const BRANDING: BrandingConfig = {
     colors: {
-        primary: '#1A5276',        // Azul Médico Profundo
-        primaryDark: '#0F3460',    // Azul Oscuro
-        primaryLight: '#2980B9',   // Azul Claro
+        primary: '#094068',        // Azul Corporativo
+        primaryDark: '#052d4a',    // Azul Oscuro (derivado)
+        primaryLight: '#0d598f',   // Azul Claro (derivado)
         secondary: '#4A5568',      // Gris Técnico
-        accent: '#00A3E0',         // Azul Cielo (highlight)
+        accent: '#81c754',         // Verde Corporativo (usado como accent ahora)
         background: '#F8FAFC',     // Blanco Roto
         surface: '#FFFFFF',        // Blanco Puro
         text: '#1A202C',           // Negro Suave
         textMuted: '#718096',      // Gris Texto
         border: '#E2E8F0',         // Gris Borde
-        success: '#27AE60',        // Verde Médico
+        success: '#81c754',        // Verde Corporativo
         warning: '#F39C12',        // Ámbar
         error: '#E74C3C',          // Rojo
         whatsapp: '#25D366',       // Verde WhatsApp oficial
@@ -268,7 +268,7 @@ export const PRODUCT_CATEGORIES_FALLBACK = [
         slug: 'sports-medicine',
         description: 'Implantes y sistemas para medicina deportiva',
         image: '/assets/img/categorias/orthomaster_categoría_sports_medicine.jpeg',
-        color: '#1A5276',
+        color: '#094068',
     },
     {
         id: 2,
@@ -284,7 +284,7 @@ export const PRODUCT_CATEGORIES_FALLBACK = [
         slug: 'osteosintesis',
         description: 'Sistemas de fijación ósea avanzados',
         image: '/assets/img/categorias/orthomaster_categoría_osteosíntesis.jpg',
-        color: '#00A3E0',
+        color: '#81c754',
     },
     {
         id: 4,

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { MapPin, Globe, CheckCircle2, Navigation, Building2 } from 'lucide-react';
+import { MapPin, Globe, CheckCircle2, Building2 } from 'lucide-react';
 import { ENTITY_DATA, BRANDING } from '@/app/config';
 
 export function OfficesSection() {
@@ -77,26 +77,17 @@ export function OfficesSection() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
                             {offices.cities.map((city, idx) => (
                                 <div
                                     key={city}
-                                    className="group flex flex-col p-4 bg-white border border-[var(--color-border)] rounded-2xl hover:border-[var(--color-accent)]/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                                    className="flex items-center gap-3 py-1 group transition-all duration-300"
                                     style={{ transitionDelay: `${idx * 50}ms` }}
                                 >
-                                    <div className="flex items-center justify-between mb-3">
-                                        <div className="w-8 h-8 rounded-lg bg-[var(--color-bg)] flex items-center justify-center text-[var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors duration-300">
-                                            <Navigation size={14} className="group-hover:rotate-12 transition-transform" />
-                                        </div>
-                                        <span className="text-[10px] font-bold text-[var(--color-primary-light)]/40 uppercase tracking-tighter">Office_{idx + 1}</span>
-                                    </div>
-                                    <span className="font-black text-sm text-[var(--color-primary-dark)] tracking-wide mb-1 uppercase">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] group-hover:scale-150 transition-transform duration-300 shadow-[0_0_8px_var(--color-accent)]"></div>
+                                    <span className="font-bold text-base text-[var(--color-primary-dark)] tracking-wide group-hover:text-[var(--color-accent)] transition-colors duration-300 uppercase">
                                         {city}
                                     </span>
-                                    <div className="flex items-center gap-1.5">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)]"></div>
-                                        <span className="text-[10px] font-bold text-[var(--color-text-muted)]">OPERATIVO 24/7</span>
-                                    </div>
                                 </div>
                             ))}
                         </div>

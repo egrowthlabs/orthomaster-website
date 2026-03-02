@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Package } from 'lucide-react';
 import { getProducts, getCategories } from '@/lib/wordpress';
 import { SEO_DEFAULTS } from '@/app/config';
@@ -25,27 +27,39 @@ export default async function ProductosPage() {
     return (
         <>
             {/* Page Header */}
-            <div className="bg-gradient-to-r from-[var(--color-primary-dark)] to-[var(--color-primary)] text-white py-14">
-                <div className="container-site">
+            <div className="relative bg-[var(--color-primary-dark)] text-white py-20 overflow-hidden">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/assets/img/orthomaster-6.jpeg"
+                        alt="Catálogo Orthomaster"
+                        fill
+                        className="object-cover object-center opacity-40"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-dark)] via-[var(--color-primary-dark)]/80 to-transparent" />
+                </div>
+
+                <div className="container-site relative z-10">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-blue-200/70 mb-5" aria-label="Breadcrumb">
-                        <a href="/" className="hover:text-white transition-colors">Inicio</a>
+                    <nav className="flex items-center gap-2 text-sm text-blue-100/70 mb-8" aria-label="Breadcrumb">
+                        <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
                         <span>/</span>
                         <span className="text-white font-medium">Productos</span>
                     </nav>
 
-                    <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 mt-1">
-                            <Package size={24} className="text-[var(--color-accent)]" />
+                    <div className="flex flex-col md:flex-row md:items-center gap-6">
+                        <div className="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 shadow-lg backdrop-blur-sm">
+                            <Package size={32} className="text-[var(--color-accent)]" />
                         </div>
                         <div>
-                            <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tight">
+                            <h1 className="text-4xl md:text-5xl font-black mb-3 tracking-tight">
                                 Catálogo de Productos
                             </h1>
-                            <p className="text-blue-100 text-base max-w-xl leading-relaxed">
+                            <p className="text-blue-50 text-lg max-w-2xl leading-relaxed">
                                 Equipamiento médico certificado para trauma, ortopedia e instrumentación quirúrgica.
                                 {products.length > 0 && (
-                                    <span className="ml-1 font-semibold text-[var(--color-accent)]">
+                                    <span className="ml-2 font-semibold text-[var(--color-accent)]">
                                         {products.length} productos disponibles.
                                     </span>
                                 )}

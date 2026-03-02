@@ -2,6 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import Link from 'next/link';
+import Image from 'next/image';
 import {
     Send, CheckCircle, AlertCircle, Loader2, MapPin, Phone,
     Mail, Clock, ExternalLink,
@@ -76,20 +78,32 @@ export default function ContactoPage() {
     return (
         <div className="bg-[var(--color-bg)]">
             {/* Header */}
-            <section className="bg-gradient-to-br from-[var(--color-primary-dark)] to-[var(--color-primary)] text-white py-16">
-                <div className="container-site">
-                    <nav className="flex items-center gap-2 text-sm text-blue-200/70 mb-6" aria-label="Breadcrumb">
-                        <a href="/" className="hover:text-white transition-colors">Inicio</a>
+            <section className="relative py-20 overflow-hidden bg-[var(--color-primary-dark)]">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/assets/img/orthomaster-10.jpeg"
+                        alt="Contacto Orthomaster"
+                        fill
+                        className="object-cover object-center opacity-40"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-dark)] via-[var(--color-primary-dark)]/80 to-transparent" />
+                </div>
+
+                <div className="container-site relative z-10 text-white">
+                    <nav className="flex items-center gap-2 text-sm text-blue-100/70 mb-8" aria-label="Breadcrumb">
+                        <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
                         <span>/</span>
                         <span className="text-white font-medium">Contacto</span>
                     </nav>
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 block">
                         Estamos para ayudarte
                     </span>
-                    <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 tracking-tight">
                         Contáctanos
                     </h1>
-                    <p className="text-blue-100 text-lg max-w-lg leading-relaxed">
+                    <p className="text-blue-50 text-xl max-w-2xl leading-relaxed">
                         Escríbenos con cualquier consulta sobre productos, disponibilidad, cotizaciones o soporte técnico.
                     </p>
                 </div>
@@ -101,7 +115,8 @@ export default function ContactoPage() {
 
                     {/* Left: Contact Sidebar */}
                     <div className="lg:col-span-2 flex flex-col gap-6">
-                        {/* WhatsApp urgent */}
+                        {/* WhatsApp urgent - Commented per user request */}
+                        {/* 
                         <a
                             href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
                             target="_blank"
@@ -118,7 +133,8 @@ export default function ContactoPage() {
                                 <p className="text-white/80 text-sm">{CONTACT_DATA.whatsapp.display}</p>
                                 <p className="text-white/70 text-xs mt-0.5">Respondemos en minutos</p>
                             </div>
-                        </a>
+                        </a> 
+                        */}
 
                         {/* Phone */}
                         <div className="bg-white rounded-2xl border border-[var(--color-border)] p-5 flex flex-col gap-4 shadow-sm">
@@ -126,7 +142,7 @@ export default function ContactoPage() {
                                 href={`tel:${CONTACT_DATA.phone.main}`}
                                 className="flex items-center gap-3 hover:text-[var(--color-primary)] transition-colors group"
                             >
-                                <div className="w-9 h-9 rounded-xl bg-[rgba(26,82,118,0.08)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-200">
+                                <div className="w-9 h-9 rounded-xl bg-[rgba(9,64,104,0.08)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-200">
                                     <Phone size={16} />
                                 </div>
                                 <div>
@@ -139,7 +155,7 @@ export default function ContactoPage() {
                                 href={`mailto:${CONTACT_DATA.email.ventas}`}
                                 className="flex items-center gap-3 hover:text-[var(--color-primary)] transition-colors group"
                             >
-                                <div className="w-9 h-9 rounded-xl bg-[rgba(26,82,118,0.08)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-200">
+                                <div className="w-9 h-9 rounded-xl bg-[rgba(9,64,104,0.08)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-200">
                                     <Mail size={16} />
                                 </div>
                                 <div>
@@ -149,7 +165,7 @@ export default function ContactoPage() {
                             </a>
 
                             <div className="flex items-start gap-3">
-                                <div className="w-9 h-9 rounded-xl bg-[rgba(26,82,118,0.08)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
+                                <div className="w-9 h-9 rounded-xl bg-[rgba(9,64,104,0.08)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
                                     <Clock size={16} />
                                 </div>
                                 <div>
@@ -169,7 +185,7 @@ export default function ContactoPage() {
                                     className="bg-white rounded-2xl border border-[var(--color-border)] p-5 shadow-sm"
                                 >
                                     <div className="flex items-start gap-3">
-                                        <div className="w-9 h-9 rounded-xl bg-[rgba(26,82,118,0.08)] flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-0.5">
+                                        <div className="w-9 h-9 rounded-xl bg-[rgba(9,64,104,0.08)] flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-0.5">
                                             <MapPin size={16} />
                                         </div>
                                         <div className="flex-1">

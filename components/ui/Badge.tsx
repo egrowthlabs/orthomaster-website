@@ -10,8 +10,8 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-    primary: 'bg-[rgba(26,82,118,0.1)] text-[#1A5276]',
-    accent: 'bg-[rgba(0,163,224,0.1)] text-[#00A3E0]',
+    primary: 'bg-[rgba(9,64,104,0.1)] text-[#094068]',
+    accent: 'bg-[rgba(129,199,84,0.1)] text-[#81c754]',
     secondary: 'bg-[rgba(74,85,104,0.1)] text-[#4A5568]',
     success: 'bg-[rgba(39,174,96,0.1)] text-[#27AE60]',
     warning: 'bg-[rgba(243,156,18,0.1)] text-[#F39C12]',

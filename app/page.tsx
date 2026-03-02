@@ -9,6 +9,7 @@ import { ENTITY_DATA, CONTACT_DATA, PRODUCT_CATEGORIES_FALLBACK, SEO_DEFAULTS, D
 import { getProducts, getCategories } from '@/lib/wordpress';
 import { ProductCard } from '@/components/products/ProductCard';
 import { HeroCarousel } from '@/components/shared/HeroCarousel';
+import { OfficesSection } from '@/components/sections/OfficesSection';
 
 export const metadata: Metadata = {
   title: SEO_DEFAULTS.defaultTitle,
@@ -229,7 +230,7 @@ export default async function HomePage() {
       {/* ============================================================
           CTA BANNER
       ============================================================ */}
-      <section className="section-padding bg-gradient-to-r from-[#0F3460] to-[#1A5276] text-white relative overflow-hidden">
+      <section className="section-padding bg-gradient-to-r from-[var(--color-primary-dark)] to-[var(--color-primary)] text-white relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute right-0 top-0 h-full w-96 opacity-10">
           <svg viewBox="0 0 200 200" fill="none">
@@ -241,7 +242,7 @@ export default async function HomePage() {
 
         <div className="container-site relative z-10">
           <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#00A3E0] mb-4 block">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 block">
               Contáctanos Hoy
             </span>
             <h2 className="text-3xl md:text-4xl font-black mb-5 leading-tight">
@@ -252,6 +253,8 @@ export default async function HomePage() {
               ideal para tu institución o práctica médica.
             </p>
             <div className="flex flex-wrap gap-4">
+              {/* WhatsApp button commented out per user request */}
+              {/* 
               <a
                 href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
                 target="_blank"
@@ -260,7 +263,8 @@ export default async function HomePage() {
               >
                 <MessageCircle size={20} />
                 WhatsApp Urgencias
-              </a>
+              </a> 
+              */}
               <Link
                 href="/contacto"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-white/10 border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
@@ -272,6 +276,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Offices & Coverage */}
+      <OfficesSection />
     </>
   );
 }

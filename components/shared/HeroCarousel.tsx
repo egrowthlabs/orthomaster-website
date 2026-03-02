@@ -39,15 +39,15 @@ export function HeroCarousel() {
                         priority={index === 0}
                     />
                     {/* Dark Overlay mapped over using absolute positioning and multiply blend mode for rich colors */}
-                    <div className="absolute inset-0 bg-blue-900/40 mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-[#052d4a]/40 mix-blend-multiply" />
                     {/* Gradient to make text readable */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-dark)] via-[#1A5276]/90 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#052d4a] via-[#094068]/90 to-transparent" />
                 </div>
             ))}
 
             {/* Glow orbs */}
-            <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-[#00A3E0]/20 blur-3xl pointer-events-none" />
-            <div className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full bg-[#1A5276]/30 blur-3xl pointer-events-none" />
+            <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-[#81c754]/10 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full bg-[#094068]/20 blur-3xl pointer-events-none" />
 
             <div className="container-site relative z-10 py-20 lg:py-28">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -55,17 +55,17 @@ export function HeroCarousel() {
                     <div className="text-white">
                         {/* Pill badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 border border-white/20 rounded-full text-sm font-semibold text-blue-100 mb-6 backdrop-blur-sm">
-                            <Shield size={14} className="text-[#00A3E0]" />
+                            <Shield size={14} className="text-[#81c754]" />
                             Distribuidora Certificada COFEPRIS · ISO 13485
                         </div>
 
                         <h1 className="font-black text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-6 tracking-tight">
                             Especialistas en{' '}
-                            <span className="text-[#00A3E0]">Trauma</span>{' '}
+                            <span className="text-[#81c754]">Trauma</span>{' '}
                             y{' '}
                             <span className="relative inline-block">
                                 Ortopedia
-                                <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-[#00A3E0] to-transparent rounded-full" />
+                                <span className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-[#81c754] to-transparent rounded-full" />
                             </span>
                         </h1>
 
@@ -83,6 +83,8 @@ export function HeroCarousel() {
                                 Ver Catálogo
                                 <ArrowRight size={18} />
                             </Link>
+                            {/* WhatsApp button commented out per user request */}
+                            {/* 
                             <a
                                 href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
                                 target="_blank"
@@ -91,7 +93,8 @@ export function HeroCarousel() {
                             >
                                 <MessageCircle size={18} />
                                 Cotizar Ahora
-                            </a>
+                            </a> 
+                            */}
                         </div>
 
                         {/* Trust chips */}
@@ -101,7 +104,7 @@ export function HeroCarousel() {
                                     key={item}
                                     className="flex items-center gap-1.5 text-sm text-blue-100"
                                 >
-                                    <CheckCircle size={14} className="text-[#00A3E0] shrink-0" />
+                                    <CheckCircle size={14} className="text-[#81c754] shrink-0" />
                                     {item}
                                 </div>
                             ))}
@@ -125,7 +128,7 @@ export function HeroCarousel() {
                     <button
                         key={idx}
                         onClick={() => setCurrentIndex(idx)}
-                        className={`h-1.5 transition-all duration-300 rounded-full ${idx === currentIndex ? 'w-8 bg-[#00A3E0]' : 'w-4 bg-white/40 hover:bg-white/60'}`}
+                        className={`h-1.5 transition-all duration-300 rounded-full ${idx === currentIndex ? 'w-8 bg-[#81c754]' : 'w-4 bg-white/40 hover:bg-white/60'}`}
                         aria-label={`Go to slide ${idx + 1}`}
                     />
                 ))}

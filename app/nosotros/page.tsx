@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
     Award, Shield, Target, Users, CheckCircle, ArrowRight,
     Calendar, Globe, MessageCircle,
@@ -22,22 +23,34 @@ export default function NosotrosPage() {
     return (
         <div className="bg-[var(--color-bg)]">
             {/* Hero */}
-            <section className="bg-gradient-to-br from-[var(--color-primary-dark)] to-[var(--color-primary)] text-white py-20">
-                <div className="container-site">
-                    <nav className="flex items-center gap-2 text-sm text-blue-200/70 mb-6" aria-label="Breadcrumb">
-                        <a href="/" className="hover:text-white transition-colors">Inicio</a>
+            <section className="relative py-24 overflow-hidden bg-[var(--color-primary-dark)]">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/assets/img/orthomaster-8.jpeg"
+                        alt="Nosotros - Orthomaster"
+                        fill
+                        className="object-cover object-center opacity-60"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-primary-dark)] via-[var(--color-primary-dark)]/80 to-transparent" />
+                </div>
+
+                <div className="container-site relative z-10 text-white">
+                    <nav className="flex items-center gap-2 text-sm text-blue-100/70 mb-8" aria-label="Breadcrumb">
+                        <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
                         <span>/</span>
                         <span className="text-white font-medium">Nosotros</span>
                     </nav>
 
-                    <div className="max-w-2xl">
+                    <div className="max-w-3xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 block">
-                            Sobre la Empresa
+                            Nuestra Trayectoria
                         </span>
-                        <h1 className="text-4xl md:text-5xl font-black mb-5 tracking-tight leading-tight">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-[1.1]">
                             Más de {yearsOfExperience} años impulsando la medicina de precisión
                         </h1>
-                        <p className="text-blue-100 text-lg leading-relaxed">
+                        <p className="text-blue-50 text-xl leading-relaxed max-w-2xl">
                             {ENTITY_DATA.bio}
                         </p>
                     </div>
@@ -174,6 +187,8 @@ export default function NosotrosPage() {
                             Ver Catálogo
                             <ArrowRight size={18} />
                         </Link>
+                        {/* WhatsApp button commented out per user request */}
+                        {/* 
                         <a
                             href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
                             target="_blank"
@@ -182,7 +197,8 @@ export default function NosotrosPage() {
                         >
                             <MessageCircle size={18} />
                             Contactar por WhatsApp
-                        </a>
+                        </a> 
+                        */}
                     </div>
                 </div>
             </section>

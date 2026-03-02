@@ -20,13 +20,13 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const styles: Record<ButtonVariant, string> = {
     primary:
-        'bg-[#1A5276] text-white hover:bg-[#0F3460] active:scale-[0.98] shadow-md hover:shadow-lg',
+        'bg-[#094068] text-white hover:bg-[#073252] active:scale-[0.98] shadow-md hover:shadow-lg',
     secondary:
-        'bg-[#4A5568] text-white hover:bg-[#2D3748] active:scale-[0.98]',
+        'bg-[#81c754] text-[#094068] hover:bg-[#71b149] active:scale-[0.98] shadow-md hover:shadow-lg',
     outline:
-        'border-2 border-[#1A5276] text-[#1A5276] hover:bg-[#1A5276] hover:text-white active:scale-[0.98]',
+        'border-2 border-[#094068] text-[#094068] hover:bg-[#094068] hover:text-white active:scale-[0.98]',
     ghost:
-        'text-[#1A5276] hover:bg-[rgba(26,82,118,0.08)] active:scale-[0.98]',
+        'text-[#094068] hover:bg-[rgba(9,64,104,0.08)] active:scale-[0.98]',
     whatsapp:
         'bg-[#25D366] text-white hover:bg-[#1DA851] active:scale-[0.98] shadow-md hover:shadow-lg',
     danger:
@@ -56,7 +56,7 @@ export function Button({
     ...rest
 }: ButtonProps) {
     const base =
-        'inline-flex items-center justify-center font-semibold transition-all duration-300 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A3E0] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none';
+        'inline-flex items-center justify-center font-semibold transition-all duration-300 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#81c754] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none';
 
     const classes = [
         base,

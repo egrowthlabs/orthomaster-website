@@ -10,15 +10,15 @@ const config: Config = {
         extend: {
             colors: {
                 primary: {
-                    DEFAULT: '#1A5276',
-                    dark: '#0F3460',
-                    light: '#2980B9',
+                    DEFAULT: '#094068',
+                    dark: '#073252',
+                    light: '#0d5ca1',
                 },
                 secondary: {
-                    DEFAULT: '#4A5568',
+                    DEFAULT: '#81c754',
                 },
                 accent: {
-                    DEFAULT: '#00A3E0',
+                    DEFAULT: '#81c754',
                 },
                 whatsapp: {
                     DEFAULT: '#25D366',
@@ -43,8 +43,8 @@ const config: Config = {
                 '3xl': '1.5rem',
             },
             boxShadow: {
-                glow: '0 0 0 3px rgba(26, 82, 118, 0.25)',
-                'accent-glow': '0 0 20px rgba(0, 163, 224, 0.3)',
+                glow: '0 0 0 3px rgba(9, 64, 104, 0.25)',
+                'accent-glow': '0 0 20px rgba(129, 199, 84, 0.3)',
             },
             keyframes: {
                 'fade-in': {
