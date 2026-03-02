@@ -65,7 +65,8 @@ export interface BrandingConfig {
 // API Endpoint
 // ----------------------------------------------------------------
 
-export const API_ENDPOINT = 'https://www.orthomaster.com.mx/wp-json/orthomaster/v1/productos';
+export const API_ENDPOINT = 'https://javierh48.sg-host.com/wp-json/orthomaster/v1/productos';
+export const CATEGORIES_ENDPOINT = 'https://javierh48.sg-host.com/wp-json/orthomaster/v1/categorias';
 
 // ----------------------------------------------------------------
 // Datos de la Empresa
@@ -194,11 +195,6 @@ export const CONTACT_DATA = {
         urgencias: 'Urgencias 24/7 por WhatsApp',
     },
     social: [
-        {
-            platform: 'facebook',
-            url: 'https://www.facebook.com/orthomaster.mx',
-            label: 'Facebook Orthomaster',
-        },
         {
             platform: 'instagram',
             url: 'https://www.instagram.com/orthomaster.mx',

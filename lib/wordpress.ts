@@ -2,7 +2,7 @@
 // Consumes the Orthomaster custom WP REST API endpoint
 
 import type { WPProduct, WPCategory, WPProductsResponse } from '@/types/wordpress';
-import { API_ENDPOINT, DISPLAY_CATEGORIES } from '@/app/config';
+import { API_ENDPOINT, CATEGORIES_ENDPOINT, DISPLAY_CATEGORIES } from '@/app/config';
 
 const REVALIDATE_PRODUCTS = 3600;   // 1 hour
 const REVALIDATE_CATEGORIES = 86400; // 24 hours
@@ -143,7 +143,7 @@ export async function getProductBySlug(slug: string, lang: string = 'es'): Promi
 // ----------------------------------------------------------------
 
 export async function getCategories(lang: string = 'es'): Promise<WPCategory[]> {
-    const categoriesUrl = buildUrl('https://www.orthomaster.com.mx/wp-json/orthomaster/v1/categorias', { lang });
+    const categoriesUrl = buildUrl(CATEGORIES_ENDPOINT, { lang });
     const data = await fetchWP<WPCategory[]>(categoriesUrl, REVALIDATE_CATEGORIES);
     return data ?? [];
 }

@@ -42,7 +42,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
                             />
                         </Link>
                         <p className="text-blue-200/80 text-sm leading-relaxed mb-5">
-                            {ENTITY_DATA.tagline}. {dictionary.description}
+                            {ENTITY_DATA.tagline}.
                         </p>
                         <div className="flex flex-wrap gap-2">
                             {ENTITY_DATA.certifications.map((cert) => (
@@ -147,12 +147,12 @@ export function Footer({ lang, dictionary }: FooterProps) {
                 <div className="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-blue-300/70">
                     <p>© {currentYear} {ENTITY_DATA.legalName}. {dictionary.rights}</p>
                     <div className="flex items-center gap-4">
-                        <Link href={`/${lang}/aviso-privacidad`} className="hover:text-white transition-colors duration-200">
+                        {/* <Link href={`/${lang}/aviso-privacidad`} className="hover:text-white transition-colors duration-200">
                             {lang === 'es' ? 'Aviso de Privacidad' : 'Privacy Policy'}
                         </Link>
                         <Link href={`/${lang}/terminos`} className="hover:text-white transition-colors duration-200">
                             {lang === 'es' ? 'Términos y Condiciones' : 'Terms & Conditions'}
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </div>
