@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import '../globals.css';
 import { Navbar } from '@/components/shared/Navbar';
 import { Footer } from '@/components/shared/Footer';
 import { WhatsAppFloat } from '@/components/shared/WhatsAppFloat';
 import { SEO_DEFAULTS, BRANDING } from '@/app/config';
+import { i18n, type Locale } from '@/i18n.config';
+
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
 
 export const metadata: Metadata = {
   title: {
@@ -47,23 +52,30 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { getDictionary } from '@/lib/dictionary';
+
+export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ lang: string }>;
 }) {
+  const { lang: l } = await params;
+  const dict = await getDictionary(l as Locale);
+
   return (
-    <html lang="es-MX" suppressHydrationWarning>
+    <html lang={l} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="theme-color" content={BRANDING.colors.primary} />
       </head>
       <body className="flex flex-col min-h-screen" style={{ fontFamily: 'Outfit, system-ui, sans-serif' }} suppressHydrationWarning>
-        <Navbar />
+        <Navbar lang={l} dictionary={dict.navbar} />
         <main className="flex-1 pt-16 md:pt-20">{children}</main>
-        <Footer />
-        {/* <WhatsAppFloat /> */}
+        <Footer lang={l} dictionary={dict.footer} />
+        {/* <WhatsAppFloat dictionary={dict.whatsapp} /> */}
       </body>
     </html>
   );

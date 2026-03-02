@@ -2,14 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  ArrowRight, Shield, Award, Clock, Zap, ChevronRight,
-  Phone, MessageCircle, CheckCircle
+  ArrowRight, Shield, Award, Zap, ChevronRight,
+  Phone
 } from 'lucide-react';
-import { ENTITY_DATA, CONTACT_DATA, PRODUCT_CATEGORIES_FALLBACK, SEO_DEFAULTS, DISPLAY_CATEGORIES } from '@/app/config';
+import { ENTITY_DATA, PRODUCT_CATEGORIES_FALLBACK, SEO_DEFAULTS, DISPLAY_CATEGORIES } from '@/app/config';
 import { getProducts, getCategories } from '@/lib/wordpress';
 import { ProductCard } from '@/components/products/ProductCard';
 import { HeroCarousel } from '@/components/shared/HeroCarousel';
 import { OfficesSection } from '@/components/sections/OfficesSection';
+import { getDictionary } from '@/lib/dictionary';
+import type { Locale } from '@/i18n.config';
 
 export const metadata: Metadata = {
   title: SEO_DEFAULTS.defaultTitle,
@@ -33,14 +35,22 @@ const iconMap: Record<string, React.ReactNode> = {
   zap: <Zap className="w-7 h-7" />,
 };
 
-export default async function HomePage() {
-  // Fetch featured products (first 4)
-  const allProducts = await getProducts();
+interface HomePageProps {
+  params: { lang: string };
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { lang } = await params;
+  const l = lang as Locale;
+  const dict = await getDictionary(l);
+
+  // Fetch featured products (first 4) with language param
+  const allProducts = await getProducts(undefined, l);
   const featuredProducts = allProducts.filter((p) => p.featured).slice(0, 4);
   const displayProducts = featuredProducts.length > 0 ? featuredProducts : allProducts.slice(0, 4);
 
   // Fetch and filter Categories based on config
-  const wpCategories = await getCategories();
+  const wpCategories = await getCategories(lang);
   const categoryCards = DISPLAY_CATEGORIES.map(name => {
     const wpCat = wpCategories.find(c => c.name === name);
     const fbCat = PRODUCT_CATEGORIES_FALLBACK.find(c => c.name === name);
@@ -58,7 +68,7 @@ export default async function HomePage() {
       {/* ============================================================
           HERO SECTION
       ============================================================ */}
-      <HeroCarousel />
+      <HeroCarousel lang={lang} dictionary={dict.home.hero} />
 
       {/* ============================================================
           STATS STRIP
@@ -87,13 +97,13 @@ export default async function HomePage() {
         <div className="container-site">
           <div className="text-center mb-12">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
-              Nuestras Categorías
+              {dict.products.categories}
             </span>
             <h2 className="section-title mb-4">
-              Catálogo Especializado
+              {dict.products.title}
             </h2>
             <p className="section-subtitle mx-auto">
-              Líneas de producto diseñadas para los más altos estándares quirúrgicos. Trauma, ortopedia, instrumentación y rehabilitación.
+              {dict.products.subtitle}
             </p>
           </div>
 
@@ -101,7 +111,7 @@ export default async function HomePage() {
             {categoryCards.map((cat) => (
               <Link
                 key={cat.slug}
-                href={`/productos?categoria=${cat.slug}`}
+                href={`/${lang}/productos?categoria=${cat.slug}`}
                 className="group relative flex flex-col p-0 bg-white rounded-2xl border border-[var(--color-border)] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
               >
                 {/* Accent stripe */}
@@ -139,7 +149,7 @@ export default async function HomePage() {
                     className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider mt-auto"
                     style={{ color: cat.color.includes('var') ? undefined : cat.color }}
                   >
-                    Ver productos
+                    {dict.products.viewProducts}
                     <ChevronRight size={14} />
                   </div>
                 </div>
@@ -158,22 +168,29 @@ export default async function HomePage() {
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-2 block">
-                  Destacados
+                  {dict.home.featured.badge}
                 </span>
-                <h2 className="section-title">Productos Seleccionados</h2>
+                <h2 className="section-title">
+                  {dict.home.featured.title}
+                </h2>
               </div>
               <Link
-                href="/productos"
+                href={`/${lang}/productos`}
                 className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold text-sm hover:underline shrink-0"
               >
-                Ver catálogo completo
+                {dict.home.featured.viewAll}
                 <ArrowRight size={16} />
               </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {displayProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  lang={lang}
+                  dictionary={dict.products}
+                />
               ))}
             </div>
           </div>
@@ -189,19 +206,19 @@ export default async function HomePage() {
             {/* Left text */}
             <div>
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
-                ¿Por qué Orthomaster?
+                {dict.home.whyUs.badge}
               </span>
               <h2 className="section-title mb-5">
-                Calidad y Confianza en cada Procedimiento
+                {dict.home.whyUs.title}
               </h2>
               <p className="text-[var(--color-text-muted)] text-base leading-relaxed mb-8">
                 {ENTITY_DATA.bio}
               </p>
               <Link
-                href="/nosotros"
+                href={`/${lang}/nosotros`}
                 className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-bold rounded-xl hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300"
               >
-                Conoce más sobre nosotros
+                {dict.home.whyUs.learnMore}
                 <ArrowRight size={16} />
               </Link>
             </div>
@@ -243,34 +260,21 @@ export default async function HomePage() {
         <div className="container-site relative z-10">
           <div className="max-w-2xl">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 block">
-              Contáctanos Hoy
+              {dict.common.contact}
             </span>
             <h2 className="text-3xl md:text-4xl font-black mb-5 leading-tight">
-              ¿Buscas un producto específico o necesitas asesoría especializada?
+              {dict.home.cta.title}
             </h2>
             <p className="text-blue-200 text-base mb-8 leading-relaxed">
-              Nuestro equipo de especialistas está listo para ayudarte a encontrar el equipamiento
-              ideal para tu institución o práctica médica.
+              {dict.home.cta.subtitle}
             </p>
             <div className="flex flex-wrap gap-4">
-              {/* WhatsApp button commented out per user request */}
-              {/* 
-              <a
-                href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#25D366] text-white font-bold rounded-xl hover:bg-[#1DA851] transition-all duration-300 shadow-lg hover:-translate-y-0.5"
-              >
-                <MessageCircle size={20} />
-                WhatsApp Urgencias
-              </a> 
-              */}
               <Link
-                href="/contacto"
+                href={`/${lang}/contacto`}
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-white/10 border border-white/30 text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
               >
                 <Phone size={18} />
-                Formulario de Contacto
+                {dict.home.cta.button}
               </Link>
             </div>
           </div>
@@ -278,7 +282,7 @@ export default async function HomePage() {
       </section>
 
       {/* Offices & Coverage */}
-      <OfficesSection />
+      <OfficesSection dictionary={dict.offices} />
     </>
   );
 }

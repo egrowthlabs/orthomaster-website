@@ -5,23 +5,37 @@ import { Package } from 'lucide-react';
 import { getProducts, getCategories } from '@/lib/wordpress';
 import { SEO_DEFAULTS } from '@/app/config';
 import { ProductsClient } from './ProductsClient';
+import { getDictionary } from '@/lib/dictionary';
+import type { Locale } from '@/i18n.config';
 
-export const revalidate = 3600;
+interface ProductosPageProps {
+    params: { lang: string };
+}
 
-export const metadata: Metadata = {
-    title: 'Catálogo de Productos',
-    description: `Explora el catálogo completo de equipamiento médico de Orthomaster: trauma, ortopedia, instrumentación y rehabilitación. Productos certificados para profesionales de la salud.`,
-    openGraph: {
-        title: `Catálogo de Productos | ${SEO_DEFAULTS.siteName}`,
-        description: 'Equipamiento médico especializado: trauma, ortopedia, instrumentación y rehabilitación.',
-        url: `${SEO_DEFAULTS.baseUrl}/productos`,
-    },
-};
+export async function generateMetadata({ params }: ProductosPageProps): Promise<Metadata> {
+    const { lang } = await params;
+    const l = lang as Locale;
+    const dict = await getDictionary(l);
 
-export default async function ProductosPage() {
+    return {
+        title: dict.products.title,
+        description: dict.products.subtitle,
+        openGraph: {
+            title: `${dict.products.title} | ${SEO_DEFAULTS.siteName}`,
+            description: dict.products.subtitle,
+            url: `${SEO_DEFAULTS.baseUrl}/${l}/productos`,
+        },
+    };
+}
+
+export default async function ProductosPage({ params }: ProductosPageProps) {
+    const { lang } = await params;
+    const l = lang as Locale;
+    const dict = await getDictionary(l);
+
     const [products, categories] = await Promise.all([
-        getProducts(),
-        getCategories(),
+        getProducts(undefined, l),
+        getCategories(l),
     ]);
 
     return (
@@ -32,7 +46,7 @@ export default async function ProductosPage() {
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/assets/img/orthomaster-6.jpeg"
-                        alt="Catálogo Orthomaster"
+                        alt={dict.products.title}
                         fill
                         className="object-cover object-center opacity-40"
                         priority
@@ -43,9 +57,9 @@ export default async function ProductosPage() {
                 <div className="container-site relative z-10">
                     {/* Breadcrumb */}
                     <nav className="flex items-center gap-2 text-sm text-blue-100/70 mb-8" aria-label="Breadcrumb">
-                        <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
+                        <Link href={`/${lang}`} className="hover:text-white transition-colors">{dict.common.home}</Link>
                         <span>/</span>
-                        <span className="text-white font-medium">Productos</span>
+                        <span className="text-white font-medium">{dict.navbar.products}</span>
                     </nav>
 
                     <div className="flex flex-col md:flex-row md:items-center gap-6">
@@ -54,13 +68,13 @@ export default async function ProductosPage() {
                         </div>
                         <div>
                             <h1 className="text-4xl md:text-5xl font-black mb-3 tracking-tight">
-                                Catálogo de Productos
+                                {dict.products.title}
                             </h1>
                             <p className="text-blue-50 text-lg max-w-2xl leading-relaxed">
-                                Equipamiento médico certificado para trauma, ortopedia e instrumentación quirúrgica.
+                                {dict.products.subtitle}
                                 {products.length > 0 && (
                                     <span className="ml-2 font-semibold text-[var(--color-accent)]">
-                                        {products.length} productos disponibles.
+                                        {dict.products.available.replace('{count}', products.length.toString())}
                                     </span>
                                 )}
                             </p>
@@ -70,7 +84,12 @@ export default async function ProductosPage() {
             </div>
 
             {/* Client-side filter + grid */}
-            <ProductsClient products={products} categories={categories} />
+            <ProductsClient
+                products={products}
+                categories={categories}
+                lang={lang}
+                dictionary={dict.products}
+            />
         </>
     );
 }

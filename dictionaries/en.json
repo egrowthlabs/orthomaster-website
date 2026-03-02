@@ -1,0 +1,162 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "retry": "Retry",
+        "viewMore": "View more",
+        "contact": "Contact",
+        "privacy": "Privacy Policy",
+        "terms": "Terms & Conditions",
+        "home": "Home",
+        "about": "About Us",
+        "backToHome": "Back to home",
+        "allRightsReserved": "All rights reserved."
+    },
+    "navbar": {
+        "home": "Home",
+        "about": "About Us",
+        "products": "Products",
+        "contact": "Contact",
+        "quote": "Get a Quote"
+    },
+    "footer": {
+        "description": "Trauma and Orthopedics Specialists. Precision medical equipment.",
+        "rights": "All rights reserved.",
+        "developedBy": "Developed by",
+        "navigation": "Navigation",
+        "contact": "Contact",
+        "followUs": "Follow Us"
+    },
+    "home": {
+        "hero": {
+            "badge": "Certified COFEPRIS · ISO 13485 Distributor",
+            "title": "Specialists in <span class='text-[#81c754]'>Trauma</span> and <span class='relative inline-block'>Orthopedics<span class='absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-[#81c754] to-transparent rounded-full'></span></span>",
+            "subtitle": "Precision medical equipment for hospitals and surgeons. Over 15 years providing certified quality solutions to health institutions in Mexico.",
+            "viewCatalog": "View Catalog",
+            "trustChips": [
+                "National Delivery",
+                "24/7 Tech Support",
+                "+500 Products"
+            ],
+            "stats": {
+                "value": "+1,500",
+                "label": "Surgeons trust<br />Orthomaster"
+            }
+        },
+        "cta": {
+            "title": "Need specialized equipment?",
+            "subtitle": "Contact us today for technical advice and personalized quotes.",
+            "button": "Talk to an expert"
+        },
+        "whyUs": {
+            "badge": "Why Orthomaster?",
+            "title": "Quality and Trust in every Procedure",
+            "learnMore": "Learn more about us"
+        },
+        "featured": {
+            "badge": "Featured",
+            "title": "Selected Products",
+            "viewAll": "View full catalog"
+        }
+    },
+    "about": {
+        "title": "Our Journey",
+        "subtitle": "Driving precision medicine",
+        "statsTitle": "Impact in Figures",
+        "mission": "Mission",
+        "vision": "Vision",
+        "principles": "Our Principles",
+        "valuesTitle": "Values that guide us",
+        "valuesSubtitle": "Every decision at Orthomaster is backed by solid principles that guarantee the best experience for our clients.",
+        "internationalSupport": "International Support",
+        "certificationsTitle": "Certifications and Endorsements",
+        "certificationsSubtitle": "Our products and processes comply with the strictest international quality standards.",
+        "experience": "Over {years} years driving precision medicine",
+        "since": "Since {year}",
+        "sinceLabel": "Since",
+        "moreInfo": "Want to know more or see our catalog?",
+        "moreInfoSubtitle": "Our team is available to advise you and offer the best solution for your institution.",
+        "viewCatalog": "View Catalog"
+    },
+    "products": {
+        "title": "Product Catalog",
+        "subtitle": "Certified medical equipment for professionals.",
+        "viewDetail": "View detail",
+        "quote": "Get Quote",
+        "featured": "Featured",
+        "noImage": "No image",
+        "categories": "Our Categories",
+        "selectedProducts": "Selected Products",
+        "viewFullCatalog": "View full catalog",
+        "all": "All",
+        "searchPlaceholder": "Search product, SKU...",
+        "resultsFound": "{count} products",
+        "emptySearch": "No products found for \"{term}\". Try another term.",
+        "emptyCategory": "No products in this category. Check back later or contact us.",
+        "available": "{count} products available.",
+        "related": "Related Products",
+        "specifications": "Specifications",
+        "technicalDescription": "Technical Description",
+        "technicalSheet": "Technical Sheet",
+        "backToCatalog": "Back to catalog",
+        "quoteThis": "Quote this product",
+        "urgencies": "Urgent Support",
+        "certified": "COFEPRIS certified product. Delivery throughout Mexico. Technical support included.",
+        "noProductTitle": "Product not found",
+        "noProductDescription": "The product you are looking for is not available.",
+        "viewProducts": "View products"
+    },
+    "offices": {
+        "badge": "National Presence",
+        "title": "MAIN OFFICES",
+        "description": "We have a strategic infrastructure to provide high-tech medical solutions in key points of the Mexican territory.",
+        "impact": "National Impact",
+        "coverage": "We can reach 73% of the population through our offices and distribution channels.",
+        "listTitle": "Our Offices",
+        "listSubtitle": "Main headquarters and logistics centers",
+        "trustTitle": "Reliable Distribution Network",
+        "trustDescription": "Our strategic location guarantees optimal delivery times and immediate technical support for the medical community."
+    },
+    "contact": {
+        "title": "Contact Us",
+        "subtitle": "We are here to help",
+        "description": "Write to us with any questions about products, availability, quotes or technical support.",
+        "form": {
+            "title": "Send us a message",
+            "subtitle": "We will respond in less than 24 business hours.",
+            "name": "Full name",
+            "namePlaceholder": "Dr. Juan Garcia",
+            "email": "Email address",
+            "emailPlaceholder": "doctor@hospital.com",
+            "phone": "Phone",
+            "phonePlaceholder": "+52 55 0000-0000",
+            "subject": "Subject",
+            "subjectPlaceholder": "Quote for trauma implants...",
+            "message": "Message",
+            "messagePlaceholder": "Write your message here...",
+            "submit": "Send Message",
+            "sending": "Sending...",
+            "success": "Message sent successfully!",
+            "successFull": "We will get in touch with you shortly.",
+            "error": "There was an error sending your message.",
+            "errorFull": "Please try again or contact us via WhatsApp.",
+            "privacyNotice": "By sending you accept our {link}.",
+            "required": "Required"
+        },
+        "sidebar": {
+            "whatsappUrgent": "WhatsApp Urgencias 24/7",
+            "whatsappResponse": "We respond in minutes",
+            "phone": "Phone",
+            "sales": "Sales",
+            "schedule": "Schedule",
+            "viewOnMaps": "View on Maps"
+        }
+    },
+    "whatsapp": {
+        "help": "Need help?",
+        "description": "Contact us by WhatsApp, we respond in minutes.",
+        "chatLabel": "Chat on WhatsApp",
+        "close": "Close",
+        "productInterest": "Hi! I'm interested in quoting the following Orthomaster product:\n\n*{productName}*\n\nCould you please provide availability and pricing?"
+    }
+}

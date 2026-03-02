@@ -3,30 +3,39 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
     MessageCircle, ChevronRight, Tag, Hash, CheckCircle,
-    ArrowLeft, Package, Share2,
+    ArrowLeft, Package,
 } from 'lucide-react';
 import { getProductBySlug, getProductSlugs, buildWhatsAppQuoteUrl } from '@/lib/wordpress';
 import { CONTACT_DATA, SEO_DEFAULTS } from '@/app/config';
 import { Badge } from '@/components/ui/Badge';
 import { ImageGallery } from './ImageGallery';
+import { getDictionary } from '@/lib/dictionary';
+import type { Locale } from '@/i18n.config';
 
 interface PageProps {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ lang: string; slug: string }>;
 }
 
 export async function generateStaticParams() {
-    const slugs = await getProductSlugs();
-    return slugs.map((slug) => ({ slug }));
+    const slugsEs = await getProductSlugs('es');
+    const slugsEn = await getProductSlugs('en');
+
+    return [
+        ...slugsEs.map((slug) => ({ lang: 'es', slug })),
+        ...slugsEn.map((slug) => ({ lang: 'en', slug })),
+    ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { slug } = await params;
-    const product = await getProductBySlug(slug);
+    const { lang, slug } = await params;
+    const l = lang as Locale;
+    const dict = await getDictionary(l);
+    const product = await getProductBySlug(slug, l);
 
     if (!product) {
         return {
-            title: 'Producto no encontrado',
-            description: 'El producto que buscas no está disponible.',
+            title: dict.products.noProductTitle,
+            description: dict.products.noProductDescription,
         };
     }
 
@@ -35,19 +44,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     return {
         title: product.title,
-        description: plainDescription || `${product.title} — Equipamiento médico profesional. Cotiza directamente con Orthomaster.`,
+        description: plainDescription || `${product.title} — Orthomaster.`,
         openGraph: {
             title: `${product.title} | ${SEO_DEFAULTS.siteName}`,
             description: plainDescription,
-            url: `${SEO_DEFAULTS.baseUrl}/productos/${slug}`,
+            url: `${SEO_DEFAULTS.baseUrl}/${l}/productos/${slug}`,
             images: mainImage ? [{ url: mainImage.src, alt: mainImage.alt }] : [],
         },
     };
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
-    const { slug } = await params;
-    const product = await getProductBySlug(slug);
+    const { lang, slug } = await params;
+    const l = lang as Locale;
+    const dict = await getDictionary(l);
+    const product = await getProductBySlug(slug, l);
 
     if (!product) notFound();
 
@@ -60,14 +71,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <div className="bg-white border-b border-[var(--color-border)]">
                 <div className="container-site py-3">
                     <nav className="flex items-center gap-1.5 text-sm text-[var(--color-text-muted)]" aria-label="Breadcrumb">
-                        <Link href="/" className="hover:text-[var(--color-primary)] transition-colors">Inicio</Link>
+                        <Link href={`/${l}`} className="hover:text-[var(--color-primary)] transition-colors">{dict.common.home}</Link>
                         <ChevronRight size={14} />
-                        <Link href="/productos" className="hover:text-[var(--color-primary)] transition-colors">Productos</Link>
+                        <Link href={`/${l}/productos`} className="hover:text-[var(--color-primary)] transition-colors">{dict.navbar.products}</Link>
                         {product.categories?.[0] && (
                             <>
                                 <ChevronRight size={14} />
                                 <Link
-                                    href={`/productos?categoria=${encodeURIComponent(product.categories[0])}`}
+                                    href={`/${l}/productos?categoria=${encodeURIComponent(product.categories[0])}`}
                                     className="hover:text-[var(--color-primary)] transition-colors"
                                 >
                                     {product.categories[0]}
@@ -96,7 +107,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         {product.categories && product.categories.length > 0 && (
                             <div className="flex flex-wrap gap-2">
                                 {product.categories.map((catName) => (
-                                    <Link key={catName} href={`/productos?categoria=${encodeURIComponent(catName)}`}>
+                                    <Link key={catName} href={`/${l}/productos?categoria=${encodeURIComponent(catName)}`}>
                                         <Badge variant="accent">
                                             <Tag size={10} className="mr-0.5" />
                                             {catName}
@@ -140,7 +151,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                             <div className="bg-white rounded-xl border border-[var(--color-border)] overflow-hidden">
                                 <div className="px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-bg)]">
                                     <h3 className="font-bold text-sm text-[var(--color-text)] uppercase tracking-wider">
-                                        Especificaciones
+                                        {dict.products.specifications}
                                     </h3>
                                 </div>
                                 <table className="w-full text-sm">
@@ -188,7 +199,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                 id="btn-cotizar-producto"
                             >
                                 <MessageCircle size={20} />
-                                Cotizar este producto
+                                {dict.products.quoteThis}
                             </a>
                             <a
                                 href={urgenciasUrl}
@@ -196,14 +207,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center gap-2 px-5 py-4 border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-bold rounded-xl hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300 text-sm"
                             >
-                                Urgencias
+                                {dict.products.urgencies}
                             </a>
                         </div>
 
                         {/* Trust line */}
                         <p className="text-xs text-[var(--color-text-muted)] flex items-center gap-1.5">
                             <CheckCircle size={12} className="text-[var(--color-success)] shrink-0" />
-                            Producto certificado COFEPRIS. Entrega a todo México. Soporte técnico incluido.
+                            {dict.products.certified}
                         </p>
                     </div>
                 </div>
@@ -214,7 +225,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 <section className="bg-white border-t border-[var(--color-border)]">
                     <div className="container-site py-12">
                         <h2 className="text-2xl font-bold text-[var(--color-text)] mb-6">
-                            Descripción Técnica
+                            {dict.products.technicalDescription}
                         </h2>
                         <div
                             className="prose prose-blue max-w-none text-[var(--color-text-muted)]
@@ -233,7 +244,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 <section className="bg-[var(--color-bg)] border-t border-[var(--color-border)]">
                     <div className="container-site py-12">
                         <h2 className="text-2xl font-bold text-[var(--color-text)] mb-6">
-                            Ficha Técnica
+                            {dict.products.technicalSheet}
                         </h2>
                         <div
                             className="prose prose-sm max-w-none text-[var(--color-text-muted)]"
@@ -246,11 +257,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
             {/* Back link */}
             <div className="container-site py-8 border-t border-[var(--color-border)]">
                 <Link
-                    href="/productos"
+                    href={`/${l}/productos`}
                     className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold text-sm hover:underline"
                 >
                     <ArrowLeft size={16} />
-                    Volver al catálogo
+                    {dict.products.backToCatalog}
                 </Link>
             </div>
         </div>

@@ -11,9 +11,16 @@ import { Badge } from '@/components/ui/Badge';
 
 interface ProductCardProps {
     product: WPProduct;
+    lang: string;
+    dictionary: {
+        viewDetail: string;
+        quote: string;
+        featured: string;
+        noImage: string;
+    };
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
     const mainImage = product.images?.[0];
     const category = product.categories?.[0];
     const quoteUrl = buildWhatsAppQuoteUrl(CONTACT_DATA.whatsapp.number, product.title);
@@ -38,14 +45,14 @@ export function ProductCard({ product }: ProductCardProps) {
                             <circle cx="22" cy="24" r="6" fillOpacity="0.4" />
                             <path d="M8 44l14-12 10 8 8-10 14 14" fillOpacity="0.3" stroke="currentColor" strokeWidth="2" fill="none" strokeLinejoin="round" />
                         </svg>
-                        <span className="text-xs font-medium">Sin imagen</span>
+                        <span className="text-xs font-medium">{dictionary.noImage}</span>
                     </div>
                 )}
 
                 {/* Featured badge */}
                 {product.featured && (
                     <div className="absolute top-3 left-3">
-                        <Badge variant="accent">Destacado</Badge>
+                        <Badge variant="accent">{dictionary.featured}</Badge>
                     </div>
                 )}
 
@@ -103,22 +110,12 @@ export function ProductCard({ product }: ProductCardProps) {
             {/* Actions */}
             <div className="px-5 pb-5 flex gap-2 border-t border-[var(--color-border)] pt-4 mt-auto">
                 <Link
-                    href={`/productos/${product.slug}`}
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] rounded-lg text-sm font-semibold hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300"
+                    href={`/${lang}/productos/${product.slug}`}
+                    className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 bg-[var(--color-primary)] text-white rounded-lg text-sm font-semibold hover:bg-[var(--color-primary-dark)] transition-all duration-300 shadow-sm hover:shadow-md"
                 >
                     <Eye size={15} />
-                    Ver detalle
+                    {dictionary.viewDetail}
                 </Link>
-                <a
-                    href={quoteUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2.5 bg-[var(--color-whatsapp)] text-white rounded-lg text-sm font-semibold hover:bg-[var(--color-whatsapp-dark)] transition-all duration-300 shadow-sm hover:shadow-md"
-                    aria-label={`Cotizar ${product.title} por WhatsApp`}
-                >
-                    <MessageCircle size={15} />
-                    Cotizar
-                </a>
             </div>
         </article>
     );

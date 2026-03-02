@@ -2,33 +2,47 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-    Award, Shield, Target, Users, CheckCircle, ArrowRight,
-    Calendar, Globe, MessageCircle,
+    Award, Shield, Target, Globe, ArrowRight,
+    Calendar,
 } from 'lucide-react';
-import { ENTITY_DATA, CONTACT_DATA, SEO_DEFAULTS } from '@/app/config';
+import { ENTITY_DATA, SEO_DEFAULTS } from '@/app/config';
 import { OfficesSection } from '@/components/sections/OfficesSection';
+import { getDictionary } from '@/lib/dictionary';
+import type { Locale } from '@/i18n.config';
 
-export const metadata: Metadata = {
-    title: 'Nosotros',
-    description: `Conoce a Orthomaster: ${ENTITY_DATA.tagline}. Más de ${new Date().getFullYear() - ENTITY_DATA.founded} años de experiencia en equipamiento médico para trauma, ortopedia y rehabilitación en México.`,
-    openGraph: {
-        title: `Nosotros | ${SEO_DEFAULTS.siteName}`,
-        url: `${SEO_DEFAULTS.baseUrl}/nosotros`,
-    },
-};
+interface NosotrosPageProps {
+    params: { lang: string };
+}
 
-export default function NosotrosPage() {
+export async function generateMetadata({ params }: NosotrosPageProps): Promise<Metadata> {
+    const { lang } = await params;
+    const l = lang as Locale;
+    const dict = await getDictionary(l);
+
+    return {
+        title: dict.navbar.about,
+        description: `Orthomaster: ${ENTITY_DATA.tagline}.`,
+        openGraph: {
+            title: `${dict.navbar.about} | ${SEO_DEFAULTS.siteName}`,
+            url: `${SEO_DEFAULTS.baseUrl}/${l}/nosotros`,
+        },
+    };
+}
+
+export default async function NosotrosPage({ params }: NosotrosPageProps) {
+    const { lang } = await params;
+    const l = lang as Locale;
+    const dict = await getDictionary(l);
     const yearsOfExperience = new Date().getFullYear() - ENTITY_DATA.founded;
 
     return (
         <div className="bg-[var(--color-bg)]">
             {/* Hero */}
             <section className="relative py-24 overflow-hidden bg-[var(--color-primary-dark)]">
-                {/* Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="/assets/img/orthomaster-8.jpeg"
-                        alt="Nosotros - Orthomaster"
+                        alt={`${dict.navbar.about} - Orthomaster`}
                         fill
                         className="object-cover object-center opacity-60"
                         priority
@@ -38,17 +52,17 @@ export default function NosotrosPage() {
 
                 <div className="container-site relative z-10 text-white">
                     <nav className="flex items-center gap-2 text-sm text-blue-100/70 mb-8" aria-label="Breadcrumb">
-                        <Link href="/" className="hover:text-white transition-colors">Inicio</Link>
+                        <Link href={`/${l}`} className="hover:text-white transition-colors">{dict.common.home}</Link>
                         <span>/</span>
-                        <span className="text-white font-medium">Nosotros</span>
+                        <span className="text-white font-medium">{dict.navbar.about}</span>
                     </nav>
 
                     <div className="max-w-3xl">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-4 block">
-                            Nuestra Trayectoria
+                            {dict.about.subtitle}
                         </span>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight leading-[1.1]">
-                            Más de {yearsOfExperience} años impulsando la medicina de precisión
+                            {dict.about.experience.replace('{years}', yearsOfExperience.toString())}
                         </h1>
                         <p className="text-blue-50 text-xl leading-relaxed max-w-2xl">
                             {ENTITY_DATA.bio}
@@ -77,20 +91,18 @@ export default function NosotrosPage() {
             <section className="section-padding">
                 <div className="container-site">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Mission */}
                         <div className="bg-white rounded-2xl border border-[var(--color-border)] p-8 hover:shadow-md transition-shadow">
                             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white mb-5 shadow-md">
                                 <Target size={22} />
                             </div>
-                            <h2 className="font-bold text-xl text-[var(--color-text)] mb-3">Misión</h2>
+                            <h2 className="font-bold text-xl text-[var(--color-text)] mb-3">{dict.about.mission}</h2>
                             <p className="text-[var(--color-text-muted)] leading-relaxed">{ENTITY_DATA.mission}</p>
                         </div>
-                        {/* Vision */}
                         <div className="bg-white rounded-2xl border border-[var(--color-border)] p-8 hover:shadow-md transition-shadow">
                             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-primary-light)] flex items-center justify-center text-white mb-5 shadow-md">
                                 <Globe size={22} />
                             </div>
-                            <h2 className="font-bold text-xl text-[var(--color-text)] mb-3">Visión</h2>
+                            <h2 className="font-bold text-xl text-[var(--color-text)] mb-3">{dict.about.vision}</h2>
                             <p className="text-[var(--color-text-muted)] leading-relaxed">{ENTITY_DATA.vision}</p>
                         </div>
                     </div>
@@ -102,16 +114,16 @@ export default function NosotrosPage() {
                 <div className="container-site">
                     <div className="text-center mb-12">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
-                            Nuestros Principios
+                            {dict.about.principles}
                         </span>
-                        <h2 className="section-title mb-4">Valores que nos guían</h2>
+                        <h2 className="section-title mb-4">{dict.about.valuesTitle}</h2>
                         <p className="section-subtitle mx-auto">
-                            Cada decisión en Orthomaster está respaldada por principios sólidos que garantizan la mejor experiencia para nuestros clientes.
+                            {dict.about.valuesSubtitle}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {ENTITY_DATA.values.map((value, idx) => (
+                        {ENTITY_DATA.values.map((value) => (
                             <div
                                 key={value.title}
                                 className="group flex flex-col gap-4 p-6 rounded-2xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
@@ -130,18 +142,18 @@ export default function NosotrosPage() {
             </section>
 
             {/* Offices & Coverage */}
-            <OfficesSection />
+            <OfficesSection dictionary={dict.offices} />
 
             {/* Certifications */}
             <section className="section-padding bg-[var(--color-bg)]">
                 <div className="container-site">
                     <div className="text-center mb-12">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
-                            Respaldo Internacional
+                            {dict.about.internationalSupport}
                         </span>
-                        <h2 className="section-title mb-4">Certificaciones y Avales</h2>
+                        <h2 className="section-title mb-4">{dict.about.certificationsTitle}</h2>
                         <p className="section-subtitle mx-auto">
-                            Nuestros productos y procesos cumplen los más estrictos estándares internacionales de calidad.
+                            {dict.about.certificationsSubtitle}
                         </p>
                     </div>
 
@@ -160,7 +172,7 @@ export default function NosotrosPage() {
                                     {cert.year && (
                                         <p className="text-xs font-semibold text-[var(--color-accent)] mt-1 flex items-center justify-center gap-1">
                                             <Calendar size={11} />
-                                            Desde {cert.year}
+                                            {dict.about.since.replace('{year}', cert.year.toString())}
                                         </p>
                                     )}
                                 </div>
@@ -174,31 +186,19 @@ export default function NosotrosPage() {
             <section className="section-padding bg-gradient-to-r from-[var(--color-primary-dark)] to-[var(--color-primary)] text-white">
                 <div className="container-site text-center">
                     <h2 className="text-3xl font-black mb-4">
-                        ¿Quieres saber más o ver nuestro catálogo?
+                        {dict.about.moreInfo}
                     </h2>
                     <p className="text-blue-100 text-base mb-8 max-w-lg mx-auto">
-                        Nuestro equipo está disponible para asesorarte y ofrecerte la mejor solución para tu institución.
+                        {dict.about.moreInfoSubtitle}
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link
-                            href="/productos"
+                            href={`/${l}/productos`}
                             className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-[var(--color-primary)] font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-md hover:-translate-y-0.5"
                         >
-                            Ver Catálogo
+                            {dict.about.viewCatalog}
                             <ArrowRight size={18} />
                         </Link>
-                        {/* WhatsApp button commented out per user request */}
-                        {/* 
-                        <a
-                            href={`https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(CONTACT_DATA.whatsapp.defaultMessage)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#25D366] text-white font-bold rounded-xl hover:bg-[#1DA851] transition-all duration-300 shadow-md hover:-translate-y-0.5"
-                        >
-                            <MessageCircle size={18} />
-                            Contactar por WhatsApp
-                        </a> 
-                        */}
                     </div>
                 </div>
             </section>

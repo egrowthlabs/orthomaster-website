@@ -4,7 +4,21 @@ import Image from 'next/image';
 import { MapPin, Globe, CheckCircle2, Building2 } from 'lucide-react';
 import { ENTITY_DATA, BRANDING } from '@/app/config';
 
-export function OfficesSection() {
+interface OfficesSectionProps {
+    dictionary: {
+        badge: string;
+        title: string;
+        description: string;
+        impact: string;
+        coverage: string;
+        listTitle: string;
+        listSubtitle: string;
+        trustTitle: string;
+        trustDescription: string;
+    };
+}
+
+export function OfficesSection({ dictionary }: OfficesSectionProps) {
     const { offices } = ENTITY_DATA;
 
     return (
@@ -18,14 +32,14 @@ export function OfficesSection() {
                 <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-primary)]/5 border border-[var(--color-primary)]/10 text-[var(--color-primary)] text-xs font-bold uppercase tracking-widest mb-4">
                         <Globe size={14} className="animate-pulse" />
-                        Presencia Nacional
+                        {dictionary.badge}
                     </div>
                     <h2 className="text-4xl md:text-5xl font-black text-[var(--color-primary-dark)] mb-6 tracking-tight">
-                        {offices.title}
+                        {dictionary.title}
                     </h2>
                     <div className="w-24 h-1.5 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] mx-auto rounded-full mb-6"></div>
                     <p className="max-w-2xl text-[var(--color-text-muted)] text-lg leading-relaxed mx-auto">
-                        Contamos con una infraestructura estratégica para brindar soluciones de alta tecnología médica en los puntos clave del territorio mexicano.
+                        {dictionary.description}
                     </p>
                 </div>
 
@@ -47,15 +61,15 @@ export function OfficesSection() {
                                     />
 
                                     {/* Glassmorphism Population Badge */}
-                                    <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-auto sm:w-[320px]">
+                                    <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-auto sm:w-[340px]">
                                         <div className="backdrop-blur-md bg-white/70 border border-white/40 p-5 rounded-2xl shadow-xl flex items-center gap-5 translate-y-0 hover:-translate-y-2 transition-transform duration-500">
                                             <div className="w-16 h-16 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-[var(--color-primary)]/30 shrink-0">
                                                 {offices.coverage.percentage}%
                                             </div>
                                             <div>
-                                                <p className="text-[10px] uppercase font-black tracking-widest text-[var(--color-primary)] mb-1">Impacto Nacional</p>
+                                                <p className="text-[10px] uppercase font-black tracking-widest text-[var(--color-primary)] mb-1">{dictionary.impact}</p>
                                                 <p className="text-xs leading-tight text-[var(--color-primary-dark)] font-bold italic">
-                                                    "{offices.coverage.text}"
+                                                    "{dictionary.coverage}"
                                                 </p>
                                             </div>
                                         </div>
@@ -72,8 +86,8 @@ export function OfficesSection() {
                                 <Building2 size={24} />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-black text-[var(--color-primary-dark)]">Nuestras Oficinas</h3>
-                                <p className="text-sm font-medium text-[var(--color-text-muted)]">Sedes principales y centros logísticos</p>
+                                <h3 className="text-2xl font-black text-[var(--color-primary-dark)]">{dictionary.listTitle}</h3>
+                                <p className="text-sm font-medium text-[var(--color-text-muted)]">{dictionary.listSubtitle}</p>
                             </div>
                         </div>
 
@@ -98,9 +112,9 @@ export function OfficesSection() {
                                 <CheckCircle2 className="text-[var(--color-success)]" size={20} />
                             </div>
                             <div>
-                                <h4 className="font-black text-[var(--color-primary-dark)] text-sm mb-1 uppercase tracking-tight">Red de Distribución Confiable</h4>
+                                <h4 className="font-black text-[var(--color-primary-dark)] text-sm mb-1 uppercase tracking-tight">{dictionary.trustTitle}</h4>
                                 <p className="text-xs text-[var(--color-text-muted)] leading-relaxed">
-                                    Nuestra ubicación estratégica garantiza tiempos de entrega óptimos y soporte técnico inmediato para la comunidad médica.
+                                    {dictionary.trustDescription}
                                 </p>
                             </div>
                         </div>

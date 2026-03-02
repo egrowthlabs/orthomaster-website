@@ -45,9 +45,10 @@ async function fetchWP<T>(url: string, revalidate: number): Promise<T | null> {
 // getProducts — Fetches all products with optional category filter
 // ----------------------------------------------------------------
 
-export async function getProducts(category?: string): Promise<WPProduct[]> {
+export async function getProducts(category?: string, lang: string = 'es'): Promise<WPProduct[]> {
     const params: Record<string, string> = {};
     if (category) params.category = category;
+    if (lang) params.lang = lang;
 
     const url = buildUrl(API_ENDPOINT, Object.keys(params).length ? params : undefined);
     const data = await fetchWP<WPProductsResponse | WPProduct[]>(url, REVALIDATE_PRODUCTS);
@@ -98,8 +99,8 @@ export async function getProducts(category?: string): Promise<WPProduct[]> {
 // getProductBySlug — Fetches a single product by its slug
 // ----------------------------------------------------------------
 
-export async function getProductBySlug(slug: string): Promise<WPProduct | null> {
-    const url = buildUrl(API_ENDPOINT, { slug });
+export async function getProductBySlug(slug: string, lang: string = 'es'): Promise<WPProduct | null> {
+    const url = buildUrl(API_ENDPOINT, { slug, lang });
     const data = await fetchWP<WPProduct | WPProduct[]>(url, REVALIDATE_PRODUCTS);
 
     if (!data) return null;
@@ -141,8 +142,8 @@ export async function getProductBySlug(slug: string): Promise<WPProduct | null> 
 // getCategories — Fetches all product categories
 // ----------------------------------------------------------------
 
-export async function getCategories(): Promise<WPCategory[]> {
-    const categoriesUrl = 'https://www.orthomaster.com.mx/wp-json/orthomaster/v1/categorias';
+export async function getCategories(lang: string = 'es'): Promise<WPCategory[]> {
+    const categoriesUrl = buildUrl('https://www.orthomaster.com.mx/wp-json/orthomaster/v1/categorias', { lang });
     const data = await fetchWP<WPCategory[]>(categoriesUrl, REVALIDATE_CATEGORIES);
     return data ?? [];
 }
@@ -151,8 +152,8 @@ export async function getCategories(): Promise<WPCategory[]> {
 // generateProductStaticParams — For use in generateStaticParams()
 // ----------------------------------------------------------------
 
-export async function getProductSlugs(): Promise<string[]> {
-    const products = await getProducts();
+export async function getProductSlugs(lang: string = 'es'): Promise<string[]> {
+    const products = await getProducts(undefined, lang);
     return products.map((p) => p.slug);
 }
 

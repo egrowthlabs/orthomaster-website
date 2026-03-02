@@ -1,21 +1,31 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import type { WPProduct, WPCategory } from '@/types/wordpress';
 import { ProductGrid } from '@/components/products/ProductGrid';
 import { PRODUCT_CATEGORIES_FALLBACK, DISPLAY_CATEGORIES } from '@/app/config';
-import { Input } from '@/components/ui/Input';
 
 interface ProductsClientProps {
     products: WPProduct[];
     categories: WPCategory[];
+    lang: string;
+    dictionary: {
+        all: string;
+        searchPlaceholder: string;
+        resultsFound: string;
+        emptySearch: string;
+        emptyCategory: string;
+        viewDetail: string;
+        quote: string;
+        featured: string;
+        noImage: string;
+    };
 }
 
-export function ProductsClient({ products, categories }: ProductsClientProps) {
+export function ProductsClient({ products, categories, lang, dictionary }: ProductsClientProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [searchTerm, setSearchTerm] = useState('');
-    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
     // Read category from URL on mount
     useEffect(() => {
@@ -74,7 +84,7 @@ export function ProductsClient({ products, categories }: ProductsClientProps) {
                             />
                             <input
                                 type="search"
-                                placeholder="Buscar producto, SKU…"
+                                placeholder={dictionary.searchPlaceholder}
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full pl-9 pr-4 py-2 text-sm bg-[var(--color-bg)] border border-[var(--color-border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-colors"
@@ -92,7 +102,9 @@ export function ProductsClient({ products, categories }: ProductsClientProps) {
 
                         {/* Results count */}
                         <p className="text-sm text-[var(--color-text-muted)] sm:ml-2">
-                            <span className="font-semibold text-[var(--color-text)]">{filtered.length}</span> productos
+                            <span className="font-semibold text-[var(--color-text)]">
+                                {dictionary.resultsFound.replace('{count}', filtered.length.toString())}
+                            </span>
                         </p>
                     </div>
 
@@ -105,7 +117,7 @@ export function ProductsClient({ products, categories }: ProductsClientProps) {
                                 : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
                                 }`}
                         >
-                            Todos
+                            {dictionary.all}
                         </button>
                         {displayCategories.map((cat) => (
                             <button
@@ -127,10 +139,12 @@ export function ProductsClient({ products, categories }: ProductsClientProps) {
             <div className="container-site py-10">
                 <ProductGrid
                     products={filtered}
+                    lang={lang}
+                    dictionary={dictionary}
                     emptyMessage={
                         searchTerm
-                            ? `No encontramos productos para "${searchTerm}". Intenta con otro término.`
-                            : 'No hay productos en esta categoría. Revisa más tarde o contáctanos.'
+                            ? dictionary.emptySearch.replace('{term}', searchTerm)
+                            : dictionary.emptyCategory
                     }
                 />
             </div>

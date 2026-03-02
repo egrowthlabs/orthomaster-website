@@ -5,16 +5,23 @@ import { X } from 'lucide-react';
 import { CONTACT_DATA } from '@/app/config';
 
 interface WhatsAppFloatProps {
-    message?: string;
+    dictionary: {
+        help: string;
+        description: string;
+        chatLabel: string;
+        close: string;
+        productInterest: string;
+    };
     productName?: string;
+    message?: string;
 }
 
-export function WhatsAppFloat({ message, productName }: WhatsAppFloatProps) {
+export function WhatsAppFloat({ dictionary, productName, message }: WhatsAppFloatProps) {
     const [tooltipVisible, setTooltipVisible] = useState(false);
 
     const defaultMessage =
         productName
-            ? `¡Hola! Me interesa cotizar el siguiente producto de Orthomaster:\n\n*${productName}*\n\n¿Podrían proporcionarme disponibilidad y precio?`
+            ? dictionary.productInterest.replace('{productName}', productName)
             : (message ?? CONTACT_DATA.whatsapp.defaultMessage);
 
     const waUrl = `https://wa.me/${CONTACT_DATA.whatsapp.urgencias}?text=${encodeURIComponent(defaultMessage)}`;
@@ -27,15 +34,15 @@ export function WhatsAppFloat({ message, productName }: WhatsAppFloatProps) {
                     <button
                         onClick={() => setTooltipVisible(false)}
                         className="absolute top-2 right-2 w-5 h-5 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 transition-colors"
-                        aria-label="Cerrar"
+                        aria-label={dictionary.close}
                     >
                         <X size={12} />
                     </button>
                     <p className="text-xs font-semibold text-[var(--color-text)] mb-0.5">
-                        ¿Necesitas ayuda?
+                        {dictionary.help}
                     </p>
                     <p className="text-xs text-[var(--color-text-muted)] leading-snug">
-                        Contáctanos por WhatsApp, respondemos en minutos.
+                        {dictionary.description}
                     </p>
                 </div>
             )}
@@ -45,7 +52,7 @@ export function WhatsAppFloat({ message, productName }: WhatsAppFloatProps) {
                 href={waUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Chatear en WhatsApp"
+                aria-label={dictionary.chatLabel}
                 onMouseEnter={() => setTooltipVisible(true)}
                 onMouseLeave={() => setTooltipVisible(false)}
                 className="relative flex items-center justify-center w-14 h-14 rounded-full bg-[var(--color-whatsapp)] text-white shadow-lg hover:bg-[var(--color-whatsapp-dark)] hover:scale-110 active:scale-95 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-whatsapp)] focus-visible:ring-offset-2"

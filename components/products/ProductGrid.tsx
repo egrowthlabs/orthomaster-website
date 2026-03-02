@@ -6,6 +6,13 @@ import { ProductSkeleton } from './ProductSkeleton';
 
 interface ProductGridProps {
     products: WPProduct[];
+    lang: string;
+    dictionary: {
+        viewDetail: string;
+        quote: string;
+        featured: string;
+        noImage: string;
+    };
     loading?: boolean;
     skeletonCount?: number;
     emptyMessage?: string;
@@ -13,6 +20,8 @@ interface ProductGridProps {
 
 export function ProductGrid({
     products,
+    lang,
+    dictionary,
     loading = false,
     skeletonCount = 8,
     emptyMessage = 'No se encontraron productos en esta categoría.',
@@ -44,7 +53,12 @@ export function ProductGrid({
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                    key={product.id}
+                    product={product}
+                    lang={lang}
+                    dictionary={dictionary}
+                />
             ))}
         </div>
     );
