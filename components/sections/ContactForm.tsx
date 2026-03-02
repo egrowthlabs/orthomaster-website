@@ -189,13 +189,13 @@ export function ContactForm({ dictionary, lang }: ContactFormProps) {
                 />
 
                 <div className="flex items-center justify-between gap-4 pt-1">
-                    <p className="text-xs text-[var(--color-text-muted)]">
+                    {/* <p className="text-xs text-[var(--color-text-muted)]">
                         {dictionary.privacyNotice.split('{link}')[0]}
                         <a href={`/${lang}/aviso-privacidad`} className="text-[var(--color-accent)] hover:underline">
                             {lang === 'es' ? 'Aviso de Privacidad' : 'Privacy Policy'}
                         </a>
                         {dictionary.privacyNotice.split('{link}')[1]}
-                    </p>
+                    </p> */}
                     <button
                         type="submit"
                         disabled={status === 'loading'}

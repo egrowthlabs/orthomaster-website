@@ -165,7 +165,7 @@ export const CONTACT_DATA = {
         general: 'contacto@orthomaster.com.mx',
     },
     phone: {
-        main: '+52 55 0000-0000',
+        main: '+52 999 291 3732',
         toll_free: '800-000-0000',
     },
     branches: [
@@ -174,7 +174,7 @@ export const CONTACT_DATA = {
             address: 'Av. Insurgentes Sur 1234, Col. Del Valle',
             city: 'Ciudad de México',
             state: 'CDMX',
-            phone: '+52 55 0000-0000',
+            phone: '+52 999 291 3732',
             mapsUrl: 'https://maps.google.com/?q=Av.+Insurgentes+Sur+1234+CDMX',
             mapsEmbed: '',
         },

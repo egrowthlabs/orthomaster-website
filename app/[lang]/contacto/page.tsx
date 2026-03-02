@@ -85,7 +85,7 @@ export default async function ContactoPage({ params }: ContactoPageProps) {
                             </a>
 
                             <a
-                                href={`mailto:${CONTACT_DATA.email.ventas}`}
+                                href={`mailto:${CONTACT_DATA.email.general}`}
                                 className="flex items-center gap-3 hover:text-[var(--color-primary)] transition-colors group"
                             >
                                 <div className="w-9 h-9 rounded-xl bg-[rgba(9,64,104,0.08)] flex items-center justify-center text-[var(--color-primary)] group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all duration-200">
@@ -93,11 +93,11 @@ export default async function ContactoPage({ params }: ContactoPageProps) {
                                 </div>
                                 <div>
                                     <p className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">{dict.contact.sidebar.sales}</p>
-                                    <p className="font-semibold text-sm">{CONTACT_DATA.email.ventas}</p>
+                                    <p className="font-semibold text-sm">{CONTACT_DATA.email.general}</p>
                                 </div>
                             </a>
 
-                            <div className="flex items-start gap-3">
+                            {/* <div className="flex items-start gap-3">
                                 <div className="w-9 h-9 rounded-xl bg-[rgba(9,64,104,0.08)] flex items-center justify-center text-[var(--color-primary)] shrink-0">
                                     <Clock size={16} />
                                 </div>
@@ -107,11 +107,11 @@ export default async function ContactoPage({ params }: ContactoPageProps) {
                                     <p className="text-sm text-[var(--color-text-muted)]">{CONTACT_DATA.schedule.saturday}</p>
                                     <p className="text-sm font-semibold text-[var(--color-accent)] mt-0.5">{CONTACT_DATA.schedule.urgencias}</p>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Branches */}
-                        <div className="flex flex-col gap-4">
+                        {/* <div className="flex flex-col gap-4">
                             {CONTACT_DATA.branches.map((branch) => (
                                 <div
                                     key={branch.name}
@@ -138,7 +138,7 @@ export default async function ContactoPage({ params }: ContactoPageProps) {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Right: Contact Form */}

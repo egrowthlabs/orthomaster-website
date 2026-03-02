@@ -92,14 +92,14 @@ export function Footer({ lang, dictionary }: FooterProps) {
                             </li>
                             <li>
                                 <a
-                                    href={`mailto:${CONTACT_DATA.email.ventas}`}
+                                    href={`mailto:${CONTACT_DATA.email.general}`}
                                     className="flex items-start gap-3 text-blue-200/80 hover:text-white transition-colors duration-200 text-sm"
                                 >
                                     <Mail size={16} className="shrink-0 mt-0.5 text-[var(--color-accent)]" />
-                                    <span>{CONTACT_DATA.email.ventas}</span>
+                                    <span>{CONTACT_DATA.email.general}</span>
                                 </a>
                             </li>
-                            {CONTACT_DATA.branches.slice(0, 1).map((branch) => (
+                            {/* {CONTACT_DATA.branches.slice(0, 1).map((branch) => (
                                 <li key={branch.name}>
                                     <a
                                         href={branch.mapsUrl}
@@ -111,7 +111,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
                                         <span>{branch.address}, {branch.city}</span>
                                     </a>
                                 </li>
-                            ))}
+                            ))} */}
                         </ul>
                     </div>
 
