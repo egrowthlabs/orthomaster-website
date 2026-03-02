@@ -247,10 +247,36 @@ export const BRANDING: BrandingConfig = {
 // ----------------------------------------------------------------
 
 export const DISPLAY_CATEGORIES = [
-    { name: 'Sports Medicine', slug: 'sports-medicine' },
-    { name: 'Reemplazo Articular', slug: 'reemplazo-articular' },
-    { name: 'Osteosíntesis', slug: 'osteosintesis' },
-    { name: 'Columna', slug: 'columna' }
+    {
+        name: 'Sports Medicine',
+        slug: 'sports-medicine',
+        subcategories: [
+            { name: 'Equipos de Apoyo', slug: 'equipos-de-apoyo' },
+            { name: 'Inestabilidad', slug: 'inestabilidad' },
+            { name: 'LCA Y LCP', slug: 'lca-y-lcp' },
+            { name: 'Mango Rotador', slug: 'mango-rotador' },
+            { name: 'Menisco', slug: 'menisco' }
+        ]
+    },
+    {
+        name: 'Reemplazo Articular',
+        slug: 'reemplazo-articular',
+        subcategories: [
+            { name: 'Cadera', slug: 'cadera' },
+            { name: 'Rodilla', slug: 'rodilla' },
+            { name: 'Vastagos', slug: 'vastagos' }
+        ]
+    },
+    {
+        name: 'Osteosíntesis',
+        slug: 'osteosintesis',
+        subcategories: []
+    },
+    {
+        name: 'Columna',
+        slug: 'columna',
+        subcategories: []
+    }
 ];
 
 // ----------------------------------------------------------------
@@ -302,7 +328,7 @@ export const SEO_DEFAULTS = {
     defaultTitle: 'Orthomaster | Especialistas en Trauma y Ortopedia',
     defaultDescription:
         'Orthomaster, empresa líder en distribución de equipamiento médico especializado en trauma, ortopedia y rehabilitación en México. Productos certificados, entrega nacional.',
-    ogImage: '/assets/img/og-image.jpg',
+    ogImage: '/assets/img/banner-orthomaster-1.jpeg',
     twitterHandle: '@orthomaster_mx',
     locale: 'es_MX',
     keywords: [

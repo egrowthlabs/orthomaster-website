@@ -34,25 +34,27 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
         if (cat) setSelectedCategory(cat);
     }, []);
 
-    // Merge API categories with fallback
-    const baseCategories = categories.length > 0
-        ? categories
-        : PRODUCT_CATEGORIES_FALLBACK.map(c => ({ id: c.id, name: c.name, slug: c.slug }));
-
-    // Only show categories defined in the config, and ensure exact casing
-    const allowedCategorySlugs = DISPLAY_CATEGORIES.map(c => c.slug);
-    const displayCategories = baseCategories
-        .filter(c => allowedCategorySlugs.includes(c.slug))
-        .map(c => {
-            const config = DISPLAY_CATEGORIES.find(dc => dc.slug === c.slug);
-            return { ...c, name: c.name || config?.name || '' };
-        });
+    const activeMainCategory = useMemo(() => {
+        if (selectedCategory === 'all') return null;
+        const main = DISPLAY_CATEGORIES.find(c => c.name === selectedCategory);
+        if (main) return main;
+        const parent = DISPLAY_CATEGORIES.find(c => c.subcategories?.some(s => s.name === selectedCategory));
+        return parent || null;
+    }, [selectedCategory]);
 
     const filtered = useMemo(() => {
         return products.filter((p) => {
-            const matchesCategory =
-                selectedCategory === 'all' ||
-                p.categories?.includes(selectedCategory);
+            let matchesCategory = selectedCategory === 'all';
+
+            if (!matchesCategory) {
+                const mainCategory = DISPLAY_CATEGORIES.find(c => c.name === selectedCategory);
+                if (mainCategory) {
+                    const validNames = [mainCategory.name, ...(mainCategory.subcategories?.map(s => s.name) || [])];
+                    matchesCategory = p.categories?.some(c => validNames.includes(c)) || false;
+                } else {
+                    matchesCategory = p.categories?.includes(selectedCategory) || false;
+                }
+            }
 
             const searchLower = searchTerm.toLowerCase();
             const matchesSearch =
@@ -105,28 +107,61 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
                     </div>
 
                     {/* Category Tabs */}
-                    <div className="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-hide">
-                        <button
-                            onClick={() => setSelectedCategory('all')}
-                            className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${selectedCategory === 'all'
-                                ? 'bg-[var(--color-primary)] text-white shadow-md'
-                                : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
-                                }`}
-                        >
-                            {dictionary.all}
-                        </button>
-                        {displayCategories.map((cat) => (
+                    <div className="flex flex-col gap-2 mt-3">
+                        {/* Main Categories Row */}
+                        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                             <button
-                                key={cat.slug}
-                                onClick={() => setSelectedCategory(cat.name)}
-                                className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${selectedCategory === cat.name
+                                onClick={() => setSelectedCategory('all')}
+                                className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${selectedCategory === 'all'
                                     ? 'bg-[var(--color-primary)] text-white shadow-md'
                                     : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
                                     }`}
                             >
-                                {cat.name}
+                                {dictionary.all}
                             </button>
-                        ))}
+                            {DISPLAY_CATEGORIES.map((cat) => {
+                                const isActive = activeMainCategory?.name === cat.name;
+                                return (
+                                    <button
+                                        key={cat.slug}
+                                        onClick={() => setSelectedCategory(cat.name)}
+                                        className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${isActive
+                                            ? 'bg-[var(--color-primary)] text-white shadow-md'
+                                            : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
+                                            }`}
+                                    >
+                                        {cat.name}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Subcategories Row - only if the active main category has subcategories */}
+                        {activeMainCategory && activeMainCategory.subcategories && activeMainCategory.subcategories.length > 0 && (
+                            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide lg:ml-2">
+                                <button
+                                    onClick={() => setSelectedCategory(activeMainCategory.name)}
+                                    className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${selectedCategory === activeMainCategory.name
+                                        ? 'bg-[var(--color-secondary)] text-white shadow-md'
+                                        : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
+                                        }`}
+                                >
+                                    Todos en {activeMainCategory.name}
+                                </button>
+                                {activeMainCategory.subcategories.map(sub => (
+                                    <button
+                                        key={sub.slug}
+                                        onClick={() => setSelectedCategory(sub.name)}
+                                        className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${selectedCategory === sub.name
+                                            ? 'bg-[var(--color-secondary)] text-white shadow-md'
+                                            : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
+                                            }`}
+                                    >
+                                        {sub.name}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

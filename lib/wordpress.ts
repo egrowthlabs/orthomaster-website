@@ -65,9 +65,14 @@ export async function getProducts(category?: string, lang: string = 'es'): Promi
     // We map both product category names and DISPLAY_CATEGORIES to lowercase for safer comparison.
     // We also overwrite product.categories to ONLY contain the allowed categories with exact casing.
     console.log('[DEBUG] DISPLAY_CATEGORIES is:', JSON.stringify(DISPLAY_CATEGORIES, null, 2));
-    const allowedCategoriesLower = DISPLAY_CATEGORIES.map((c, i) => {
-        console.log(`[DEBUG] Mapping index ${i}, item:`, c);
-        return c.name.toLowerCase().trim();
+    const allowedCategoryNames = new Map<string, string>();
+    DISPLAY_CATEGORIES.forEach(c => {
+        allowedCategoryNames.set(c.name.toLowerCase().trim(), c.name);
+        if ('subcategories' in c && Array.isArray(c.subcategories)) {
+            c.subcategories.forEach(sub => {
+                allowedCategoryNames.set(sub.name.toLowerCase().trim(), sub.name);
+            });
+        }
     });
 
     return products.reduce<WPProduct[]>((acc, product) => {
@@ -85,9 +90,8 @@ export async function getProducts(category?: string, lang: string = 'es'): Promi
         const validProductCats = rawCats.map(cat => {
             if (typeof cat !== 'string') return null;
             const normalized = cat.toLowerCase().trim();
-            const index = allowedCategoriesLower.indexOf(normalized);
-            if (index !== -1) {
-                return DISPLAY_CATEGORIES[index].name; // Use exact case from config
+            if (allowedCategoryNames.has(normalized)) {
+                return allowedCategoryNames.get(normalized)!; // Use exact case from config
             }
             return null;
         }).filter(Boolean) as string[];
@@ -129,15 +133,20 @@ export async function getProductBySlug(slug: string, lang: string = 'es'): Promi
     if (rawCats.length === 0) return null;
 
     console.log('[DEBUG-Slug] DISPLAY_CATEGORIES is:', JSON.stringify(DISPLAY_CATEGORIES, null, 2));
-    const allowedCategoriesLower = DISPLAY_CATEGORIES.map((c, i) => {
-        console.log(`[DEBUG-Slug] Mapping index ${i}, item:`, c);
-        return c.name.toLowerCase().trim();
+    const allowedCategoryNames = new Map<string, string>();
+    DISPLAY_CATEGORIES.forEach(c => {
+        allowedCategoryNames.set(c.name.toLowerCase().trim(), c.name);
+        if ('subcategories' in c && Array.isArray(c.subcategories)) {
+            c.subcategories.forEach(sub => {
+                allowedCategoryNames.set(sub.name.toLowerCase().trim(), sub.name);
+            });
+        }
     });
+
     const validProductCats = rawCats.map(cat => {
         if (typeof cat !== 'string') return null;
         const normalized = cat.toLowerCase().trim();
-        const index = allowedCategoriesLower.indexOf(normalized);
-        if (index !== -1) return DISPLAY_CATEGORIES[index].name; // Use exact case from config
+        if (allowedCategoryNames.has(normalized)) return allowedCategoryNames.get(normalized)!; // Use exact case from config
         return null;
     }).filter(Boolean) as string[];
 
