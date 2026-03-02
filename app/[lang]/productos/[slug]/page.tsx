@@ -62,8 +62,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
     if (!product) notFound();
 
-    const quoteUrl = buildWhatsAppQuoteUrl(CONTACT_DATA.whatsapp.number, product.title);
-    const urgenciasUrl = buildWhatsAppQuoteUrl(CONTACT_DATA.whatsapp.urgencias, product.title);
+
 
     return (
         <div className="bg-[var(--color-bg)] min-h-screen">
@@ -191,24 +190,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                            <a
-                                href={quoteUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 bg-[var(--color-whatsapp)] text-white font-bold rounded-xl hover:bg-[var(--color-whatsapp-dark)] transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 text-base"
+                            <Link
+                                href={`/${l}/contacto?producto=${encodeURIComponent(product.title)}`}
+                                className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-4 bg-[var(--color-primary)] text-white font-bold rounded-xl hover:brightness-110 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-0.5 text-base"
                                 id="btn-cotizar-producto"
                             >
                                 <MessageCircle size={20} />
                                 {dict.products.quoteThis}
-                            </a>
-                            <a
-                                href={urgenciasUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center gap-2 px-5 py-4 border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-bold rounded-xl hover:bg-[var(--color-primary)] hover:text-white transition-all duration-300 text-sm"
-                            >
-                                {dict.products.urgencies}
-                            </a>
+                            </Link>
                         </div>
 
                         {/* Trust line */}

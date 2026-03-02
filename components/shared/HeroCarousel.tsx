@@ -6,9 +6,11 @@ import Link from 'next/link';
 import { Shield, ArrowRight, CheckCircle } from 'lucide-react';
 
 const images = [
-    '/assets/img/hero-orthomaster.jpeg',
+
+    '/assets/img/orthomaster-2.jpeg',
     '/assets/img/banner-orthomaster-1.jpeg',
     '/assets/img/orthomaster-1.jpeg',
+    '/assets/img/hero-orthomaster-bg1.jpeg',
 ];
 
 interface HeroCarouselProps {
@@ -63,10 +65,10 @@ export function HeroCarousel({ lang, dictionary }: HeroCarouselProps) {
             <div className="container-site relative z-10 py-20 lg:py-28">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div className="text-white">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 border border-white/20 rounded-full text-sm font-semibold text-blue-100 mb-6 backdrop-blur-sm">
+                        {/* <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 border border-white/20 rounded-full text-sm font-semibold text-blue-100 mb-6 backdrop-blur-sm">
                             <Shield size={14} className="text-[#81c754]" />
                             {dictionary.badge}
-                        </div>
+                        </div> */}
 
                         <h1 className="font-black text-4xl md:text-5xl lg:text-6xl leading-[1.05] mb-6 tracking-tight"
                             dangerouslySetInnerHTML={{ __html: dictionary.title }}

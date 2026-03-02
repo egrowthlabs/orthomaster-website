@@ -328,7 +328,7 @@ export const SEO_DEFAULTS = {
     defaultTitle: 'Orthomaster | Especialistas en Trauma y Ortopedia',
     defaultDescription:
         'Orthomaster, empresa líder en distribución de equipamiento médico especializado en trauma, ortopedia y rehabilitación en México. Productos certificados, entrega nacional.',
-    ogImage: '/assets/img/banner-orthomaster-1.jpeg',
+    ogImage: '/assets/img/og-image.jpg',
     twitterHandle: '@orthomaster_mx',
     locale: 'es_MX',
     keywords: [

@@ -44,7 +44,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
                         <p className="text-blue-200/80 text-sm leading-relaxed mb-5">
                             {ENTITY_DATA.tagline}.
                         </p>
-                        <div className="flex flex-wrap gap-2">
+                        {/* <div className="flex flex-wrap gap-2">
                             {ENTITY_DATA.certifications.map((cert) => (
                                 <span
                                     key={cert.name}
@@ -54,7 +54,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
                                     {cert.name}
                                 </span>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
 
                     <div>
