@@ -40,17 +40,13 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
         : PRODUCT_CATEGORIES_FALLBACK.map(c => ({ id: c.id, name: c.name, slug: c.slug }));
 
     // Only show categories defined in the config, and ensure exact casing
-    const allowedCategoryNames = DISPLAY_CATEGORIES.map(c => c.toLowerCase().trim());
+    const allowedCategorySlugs = DISPLAY_CATEGORIES.map(c => c.slug);
     const displayCategories = baseCategories
+        .filter(c => allowedCategorySlugs.includes(c.slug))
         .map(c => {
-            const normalized = c.name.toLowerCase().trim();
-            const index = allowedCategoryNames.indexOf(normalized);
-            if (index !== -1) {
-                return { ...c, name: DISPLAY_CATEGORIES[index] };
-            }
-            return null;
-        })
-        .filter((c): c is WPCategory => c !== null);
+            const config = DISPLAY_CATEGORIES.find(dc => dc.slug === c.slug);
+            return { ...c, name: c.name || config?.name || '' };
+        });
 
     const filtered = useMemo(() => {
         return products.filter((p) => {

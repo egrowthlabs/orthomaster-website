@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: SEO_DEFAULTS.defaultDescription,
 };
 
-export const revalidate = 3600;
+export const revalidate = 300; // 5 minutes
 
 const iconMap: Record<string, React.ReactNode> = {
   'shield-check': <Shield className="w-7 h-7" />,
@@ -49,16 +49,18 @@ export default async function HomePage({ params }: HomePageProps) {
   const featuredProducts = allProducts.filter((p) => p.featured).slice(0, 4);
   const displayProducts = featuredProducts.length > 0 ? featuredProducts : allProducts.slice(0, 4);
 
-  // Fetch and filter Categories based on config
+  // Fetch and filter Categories based on config using SLUGS
   const wpCategories = await getCategories(lang);
-  const categoryCards = DISPLAY_CATEGORIES.map(name => {
-    const wpCat = wpCategories.find(c => c.name === name);
-    const fbCat = PRODUCT_CATEGORIES_FALLBACK.find(c => c.name === name);
+  const categoryCards = DISPLAY_CATEGORIES.map(config => {
+    const wpCat = wpCategories.find(c => c.slug === config.slug);
+    const fbCat = PRODUCT_CATEGORIES_FALLBACK.find(c => c.slug === config.slug);
+
+    // Prioritize WP data, then fallback, then placeholder
     return {
-      slug: wpCat?.slug || fbCat?.slug || '',
-      name: name,
+      slug: wpCat?.slug || fbCat?.slug || config.slug,
+      name: wpCat?.name || config.name,
       description: wpCat?.description || fbCat?.description || '',
-      image: wpCat?.image || fbCat?.image || `https://via.placeholder.com/400x300?text=${encodeURIComponent(name)}`,
+      image: wpCat?.image || fbCat?.image || `https://via.placeholder.com/400x300?text=${encodeURIComponent(config.name)}`,
       color: fbCat?.color || 'var(--color-primary)'
     }
   }).filter(c => c.slug);

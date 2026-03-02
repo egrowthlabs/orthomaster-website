@@ -247,10 +247,10 @@ export const BRANDING: BrandingConfig = {
 // ----------------------------------------------------------------
 
 export const DISPLAY_CATEGORIES = [
-    'Sports Medicine',
-    'Remplazo Articular',
-    'Osteosíntesis',
-    'Columna'
+    { name: 'Sports Medicine', slug: 'sports-medicine' },
+    { name: 'Reemplazo Articular', slug: 'reemplazo-articular' },
+    { name: 'Osteosíntesis', slug: 'osteosintesis' },
+    { name: 'Columna', slug: 'columna' }
 ];
 
 // ----------------------------------------------------------------
@@ -268,8 +268,8 @@ export const PRODUCT_CATEGORIES_FALLBACK = [
     },
     {
         id: 2,
-        name: 'Remplazo Articular',
-        slug: 'remplazo-articular',
+        name: 'Reemplazo Articular',
+        slug: 'reemplazo-articular',
         description: 'Prótesis articulares de alta precisión',
         image: '/assets/img/categorias/orthomaster_categoría_reemplazo_articular.jpeg',
         color: '#2980B9',

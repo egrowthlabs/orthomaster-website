@@ -46,7 +46,7 @@ export interface WPProduct {
   sku?: string;
   price?: string;
   regular_price?: string;
-  images: WPProductImage[];
+  image?: string | null;
   categories: string[];
   attributes: WPProductAttribute[];
   dimensions?: WPProductDimensions;

@@ -21,7 +21,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
-    const mainImage = product.images?.[0];
+    const mainImage = product.image;
     const category = product.categories?.[0];
     const quoteUrl = buildWhatsAppQuoteUrl(CONTACT_DATA.whatsapp.number, product.title);
 
@@ -31,8 +31,8 @@ export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
             <div className="relative overflow-hidden bg-[var(--color-surface-alt)] aspect-[4/3]">
                 {mainImage ? (
                     <Image
-                        src={mainImage.src}
-                        alt={mainImage.alt || product.title}
+                        src={mainImage}
+                        alt={product.title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

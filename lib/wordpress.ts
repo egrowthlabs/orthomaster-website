@@ -4,8 +4,8 @@
 import type { WPProduct, WPCategory, WPProductsResponse } from '@/types/wordpress';
 import { API_ENDPOINT, CATEGORIES_ENDPOINT, DISPLAY_CATEGORIES } from '@/app/config';
 
-const REVALIDATE_PRODUCTS = 3600;   // 1 hour
-const REVALIDATE_CATEGORIES = 86400; // 24 hours
+const REVALIDATE_PRODUCTS = 300;   // 5 minutes
+const REVALIDATE_CATEGORIES = 300; // 5 minutes
 
 // ----------------------------------------------------------------
 // Helpers
@@ -64,7 +64,11 @@ export async function getProducts(category?: string, lang: string = 'es'): Promi
     // Strict filter: only return products that belong to at least one category in DISPLAY_CATEGORIES
     // We map both product category names and DISPLAY_CATEGORIES to lowercase for safer comparison.
     // We also overwrite product.categories to ONLY contain the allowed categories with exact casing.
-    const allowedCategoriesLower = DISPLAY_CATEGORIES.map(c => c.toLowerCase().trim());
+    console.log('[DEBUG] DISPLAY_CATEGORIES is:', JSON.stringify(DISPLAY_CATEGORIES, null, 2));
+    const allowedCategoriesLower = DISPLAY_CATEGORIES.map((c, i) => {
+        console.log(`[DEBUG] Mapping index ${i}, item:`, c);
+        return c.name.toLowerCase().trim();
+    });
 
     return products.reduce<WPProduct[]>((acc, product) => {
         if (!product.categories) return acc;
@@ -83,7 +87,7 @@ export async function getProducts(category?: string, lang: string = 'es'): Promi
             const normalized = cat.toLowerCase().trim();
             const index = allowedCategoriesLower.indexOf(normalized);
             if (index !== -1) {
-                return DISPLAY_CATEGORIES[index]; // Use exact case from config
+                return DISPLAY_CATEGORIES[index].name; // Use exact case from config
             }
             return null;
         }).filter(Boolean) as string[];
@@ -124,12 +128,16 @@ export async function getProductBySlug(slug: string, lang: string = 'es'): Promi
 
     if (rawCats.length === 0) return null;
 
-    const allowedCategoriesLower = DISPLAY_CATEGORIES.map(c => c.toLowerCase().trim());
+    console.log('[DEBUG-Slug] DISPLAY_CATEGORIES is:', JSON.stringify(DISPLAY_CATEGORIES, null, 2));
+    const allowedCategoriesLower = DISPLAY_CATEGORIES.map((c, i) => {
+        console.log(`[DEBUG-Slug] Mapping index ${i}, item:`, c);
+        return c.name.toLowerCase().trim();
+    });
     const validProductCats = rawCats.map(cat => {
         if (typeof cat !== 'string') return null;
         const normalized = cat.toLowerCase().trim();
         const index = allowedCategoriesLower.indexOf(normalized);
-        if (index !== -1) return DISPLAY_CATEGORIES[index]; // Use exact case from config
+        if (index !== -1) return DISPLAY_CATEGORIES[index].name; // Use exact case from config
         return null;
     }).filter(Boolean) as string[];
 

@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         };
     }
 
-    const mainImage = product.images?.[0];
+    const mainImage = product.image;
     const plainDescription = product.short_description?.replace(/<[^>]+>/g, '') ?? '';
 
     return {
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             title: `${product.title} | ${SEO_DEFAULTS.siteName}`,
             description: plainDescription,
             url: `${SEO_DEFAULTS.baseUrl}/${l}/productos/${slug}`,
-            images: mainImage ? [{ url: mainImage.src, alt: mainImage.alt }] : [],
+            images: mainImage ? [{ url: mainImage, alt: product.title }] : [],
         },
     };
 }
@@ -98,7 +98,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16">
                     {/* Left: Gallery */}
                     <div>
-                        <ImageGallery images={product.images} title={product.title} />
+                        <ImageGallery image={product.image} title={product.title} />
                     </div>
 
                     {/* Right: Product Info */}
