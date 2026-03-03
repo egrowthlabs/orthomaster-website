@@ -138,7 +138,7 @@
             "success": "Message sent successfully!",
             "successFull": "We will get in touch with you shortly.",
             "error": "There was an error sending your message.",
-            "errorFull": "Please try again or contact us via WhatsApp.",
+            "errorFull": "Please try again or contact us via phone.",
             "privacyNotice": "By sending you accept our {link}.",
             "required": "Required"
         },

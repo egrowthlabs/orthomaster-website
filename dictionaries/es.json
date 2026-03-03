@@ -137,7 +137,7 @@
             "success": "¡Mensaje enviado con éxito!",
             "successFull": "Nos pondremos en contacto contigo a la brevedad.",
             "error": "Hubo un error al enviar tu mensaje.",
-            "errorFull": "Por favor intenta de nuevo o contáctanos por WhatsApp.",
+            "errorFull": "Por favor intenta de nuevo o contáctanos por teléfono.",
             "privacyNotice": "Al enviar aceptas nuestro {link}.",
             "required": "Requerido"
         },

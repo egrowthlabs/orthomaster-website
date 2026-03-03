@@ -84,11 +84,19 @@ export function ContactForm({ dictionary, lang }: ContactFormProps) {
 
         setStatus('loading');
         try {
-            await emailjs.sendForm(
+            await emailjs.send(
                 EMAILJS_CONFIG.serviceId,
                 EMAILJS_CONFIG.templateId,
-                formRef.current!,
-                EMAILJS_CONFIG.publicKey
+                {
+                    name: formData.name,
+                    phone: formData.phone,
+                    email: formData.email,
+                    subject: formData.subject,
+                    message: formData.message,
+                },
+                {
+                    publicKey: EMAILJS_CONFIG.publicKey,
+                }
             );
             setStatus('success');
             setFormData(INITIAL_FORM);
