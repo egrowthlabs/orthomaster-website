@@ -78,22 +78,22 @@ export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
                 </h3>
 
                 {/* Short description */}
-                {product.short_description && (
+                {/* {product.short_description && (
                     <p
                         className="text-sm text-[var(--color-text-muted)] leading-relaxed line-clamp-2 flex-1"
                         dangerouslySetInnerHTML={{ __html: product.short_description }}
                     />
-                )}
+                )} */}
 
                 {/* SKU */}
-                {product.sku && (
+                {/* {product.sku && (
                     <p className="text-xs text-[var(--color-text-muted)] font-mono">
                         SKU: {product.sku}
                     </p>
-                )}
+                )} */}
 
                 {/* Attributes preview */}
-                {product.attributes && product.attributes.length > 0 && (
+                {/* {product.attributes && product.attributes.length > 0 && (
                     <div className="flex flex-wrap gap-1">
                         {product.attributes.slice(0, 2).map((attr) => (
                             <span
@@ -104,7 +104,7 @@ export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
                             </span>
                         ))}
                     </div>
-                )}
+                )} */}
             </div>
 
             {/* Actions */}

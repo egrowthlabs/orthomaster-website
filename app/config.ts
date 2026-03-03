@@ -347,7 +347,7 @@ export const SEO_DEFAULTS = {
 // ----------------------------------------------------------------
 
 export const EMAILJS_CONFIG = {
-    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? 'YOUR_SERVICE_ID',
-    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? 'YOUR_TEMPLATE_ID',
-    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? 'YOUR_PUBLIC_KEY',
+    serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? 'service_zv4mo2w',
+    templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? 'template_n4vopoe',
+    publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? 'wAruIq3vUjrbkOvLp',
 };
