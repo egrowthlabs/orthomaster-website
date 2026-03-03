@@ -140,11 +140,11 @@ export default async function HomePage({ params }: HomePageProps) {
                     <h3 className="font-bold text-[var(--color-text)] text-lg mb-1 group-hover:text-[var(--color-primary)] transition-colors">
                       {cat.name}
                     </h3>
-                    {cat.description && (
+                    {/* {cat.description && (
                       <p className="text-sm text-[var(--color-text-muted)] line-clamp-2 leading-relaxed">
                         {cat.description}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   <div

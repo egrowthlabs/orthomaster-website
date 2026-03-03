@@ -4,8 +4,8 @@
 import type { WPProduct, WPCategory, WPProductsResponse } from '@/types/wordpress';
 import { API_ENDPOINT, CATEGORIES_ENDPOINT, DISPLAY_CATEGORIES } from '@/app/config';
 
-const REVALIDATE_PRODUCTS = 300;   // 5 minutes
-const REVALIDATE_CATEGORIES = 300; // 5 minutes
+const REVALIDATE_PRODUCTS = 0;
+const REVALIDATE_CATEGORIES = 0;
 
 // ----------------------------------------------------------------
 // Helpers

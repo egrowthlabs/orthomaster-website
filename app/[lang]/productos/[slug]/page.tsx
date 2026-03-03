@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
     MessageCircle, ChevronRight, Tag, Hash, CheckCircle,
-    ArrowLeft, Package,
+    ArrowLeft, ArrowRight, Package,
 } from 'lucide-react';
-import { getProductBySlug, getProductSlugs, buildWhatsAppQuoteUrl } from '@/lib/wordpress';
+import { getProductBySlug, getProducts, getProductSlugs, buildWhatsAppQuoteUrl } from '@/lib/wordpress';
 import { CONTACT_DATA, SEO_DEFAULTS } from '@/app/config';
 import { Badge } from '@/components/ui/Badge';
 import { ImageGallery } from './ImageGallery';
@@ -62,9 +62,24 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
     if (!product) notFound();
 
+    // Fetch products to find the next one in the same main category
+    const mainCategory = product.categories?.[0];
+    let nextProductSlug = null;
+    let nextProductTitle = null;
 
+    if (mainCategory) {
+        const categoryProducts = await getProducts(mainCategory, l);
+        const currentIndex = categoryProducts.findIndex(p => p.slug === product.slug);
 
-    return (
+        if (currentIndex !== -1 && currentIndex < categoryProducts.length - 1) {
+            nextProductSlug = categoryProducts[currentIndex + 1].slug;
+            nextProductTitle = categoryProducts[currentIndex + 1].title;
+        } else if (categoryProducts.length > 1) {
+            // Loop back to the first product if we're at the end
+            nextProductSlug = categoryProducts[0].slug;
+            nextProductTitle = categoryProducts[0].title;
+        }
+    } return (
         <div className="bg-[var(--color-bg)] min-h-screen">
             {/* Breadcrumb */}
             <div className="bg-white border-b border-[var(--color-border)]">
@@ -94,9 +109,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
             {/* Main product section */}
             <section className="container-site py-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16 items-start">
                     {/* Left: Gallery */}
-                    <div>
+                    <div className="lg:sticky lg:top-32">
                         <ImageGallery image={product.image} title={product.title} />
                     </div>
 
@@ -121,32 +136,32 @@ export default async function ProductDetailPage({ params }: PageProps) {
                             {product.title}
                         </h1>
 
-                        {/* SKU & Marca */}
-                        <div className="flex flex-wrap gap-4 text-sm text-[var(--color-text-muted)]">
+                        {/* Marca */}
+                        <div className="flex flex-wrap gap-4 text-sm text-[var(--color-text-muted)] -mt-2">
+                            {product.marca && (
+                                <span className="flex items-center gap-1.5 px-3 py-1 bg-[var(--color-surface-alt)] border border-[var(--color-border)] rounded-lg text-[var(--color-primary)] font-bold">
+                                    <Package size={14} />
+                                    <span>{product.marca}</span>
+                                </span>
+                            )}
                             {product.sku && (
-                                <span className="flex items-center gap-1.5">
+                                <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg">
                                     <Hash size={13} />
                                     <span className="font-mono font-medium">{product.sku}</span>
                                 </span>
                             )}
-                            {product.marca && (
-                                <span className="flex items-center gap-1.5">
-                                    <Package size={13} />
-                                    <span className="font-semibold">{product.marca}</span>
-                                </span>
-                            )}
                         </div>
 
-                        {/* Short Description */}
-                        {product.short_description && (
+                        {/* Short Description (Fallback a Description) */}
+                        {(product.short_description || product.description) && (
                             <div
-                                className="text-[var(--color-text-muted)] text-base leading-relaxed prose prose-sm max-w-none"
-                                dangerouslySetInnerHTML={{ __html: product.short_description }}
+                                className="text-[var(--color-text-muted)] text-base leading-relaxed prose prose-sm max-w-none mt-2 whitespace-pre-line prose-p:my-2 prose-ul:my-2"
+                                dangerouslySetInnerHTML={{ __html: product.short_description || product.description }}
                             />
                         )}
 
                         {/* Attributes */}
-                        {product.attributes && product.attributes.length > 0 && (
+                        {/* {product.attributes && product.attributes.length > 0 && (
                             <div className="bg-white rounded-xl border border-[var(--color-border)] overflow-hidden">
                                 <div className="px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-bg)]">
                                     <h3 className="font-bold text-sm text-[var(--color-text)] uppercase tracking-wider">
@@ -171,7 +186,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                     </tbody>
                                 </table>
                             </div>
-                        )}
+                        )} */}
 
                         {/* Certificaciones del producto */}
                         {product.certificaciones && product.certificaciones.length > 0 && (
@@ -188,7 +203,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                             </div>
                         )}
 
-                        {/* CTA Buttons */}
+                        {/* CTA Buttons (Ocultos por solicitud)
                         <div className="flex flex-col sm:flex-row gap-3 pt-2">
                             <Link
                                 href={`/${l}/contacto?producto=${encodeURIComponent(product.title)}`}
@@ -199,6 +214,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                 {dict.products.quoteThis}
                             </Link>
                         </div>
+                        */}
 
                         {/* Trust line */}
                         <p className="text-xs text-[var(--color-text-muted)] flex items-center gap-1.5">
@@ -210,7 +226,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </section>
 
             {/* Full Technical Description */}
-            {product.description && (
+            {/* {product.description && (
                 <section className="bg-white border-t border-[var(--color-border)]">
                     <div className="container-site py-12">
                         <h2 className="text-2xl font-bold text-[var(--color-text)] mb-6">
@@ -226,10 +242,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         />
                     </div>
                 </section>
-            )}
+            )} */}
 
             {/* Ficha Técnica extra */}
-            {product.ficha_tecnica && (
+            {/* {product.ficha_tecnica && (
                 <section className="bg-[var(--color-bg)] border-t border-[var(--color-border)]">
                     <div className="container-site py-12">
                         <h2 className="text-2xl font-bold text-[var(--color-text)] mb-6">
@@ -241,10 +257,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         />
                     </div>
                 </section>
-            )}
+            )} */}
 
-            {/* Back link */}
-            <div className="container-site py-8 border-t border-[var(--color-border)]">
+            {/* Back & Next links */}
+            <div className="container-site py-8 border-t border-[var(--color-border)] flex flex-wrap items-center justify-between gap-4">
                 <Link
                     href={`/${l}/productos`}
                     className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold text-sm hover:underline"
@@ -252,6 +268,17 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <ArrowLeft size={16} />
                     {dict.products.backToCatalog}
                 </Link>
+
+                {nextProductSlug && (
+                    <Link
+                        href={`/${l}/productos/${nextProductSlug}`}
+                        className="inline-flex items-center gap-2 text-[var(--color-primary)] font-semibold text-sm hover:underline text-right"
+                        title={nextProductTitle || 'Siguiente producto'}
+                    >
+                        Siguiente producto
+                        <ArrowRight size={16} />
+                    </Link>
+                )}
             </div>
         </div>
     );

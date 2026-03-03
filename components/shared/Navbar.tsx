@@ -99,11 +99,11 @@ export function Navbar({ lang, dictionary }: NavbarProps) {
                         <LanguageSwitcher currentLang={lang} />
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="flex items-center justify-center w-10 h-10 rounded-lg text-[var(--color-text)] hover:bg-gray-100 transition-colors duration-200 z-[101]"
-                            aria-label={isOpen ? dictionary.contact : dictionary.home}
+                            className={`flex items-center justify-center w-10 h-10 rounded-lg text-[var(--color-text)] hover:bg-gray-100 transition-colors duration-200 z-[101] ${isOpen ? 'invisible opacity-0' : 'visible opacity-100'}`}
+                            aria-label={dictionary.home}
                             aria-expanded={isOpen}
                         >
-                            {isOpen ? <X size={26} /> : <Menu size={26} />}
+                            <Menu size={26} />
                         </button>
                     </div>
                 </nav>
@@ -114,31 +114,38 @@ export function Navbar({ lang, dictionary }: NavbarProps) {
                 className={`fixed inset-0 z-[99] md:hidden transition-all duration-300 ${isOpen ? 'visible opacity-100' : 'invisible opacity-0'
                     }`}
             >
+                {/* Backdrop / Click outside to close */}
                 <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsOpen(false)} />
-                <div className={`absolute top-0 right-0 h-full w-72 max-w-[85vw] bg-white shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                    <div className="flex items-center justify-between px-6 h-16 border-b border-[var(--color-border)]">
-                        <Image src="/assets/img/logo-orthomaster.png" alt={`${ENTITY_DATA.name} Logo`} width={140} height={48} className="h-8 w-auto object-contain" />
-                        <button onClick={() => setIsOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors" aria-label="Cerrar">
-                            <X size={18} />
+
+                {/* Sidebar Menu */}
+                <div className={`absolute top-0 right-0 h-[100dvh] w-full max-w-sm bg-white/95 backdrop-blur-md shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                    <div className="flex items-center justify-between px-6 h-20 border-b border-[var(--color-border)]">
+                        <Image src="/assets/img/logo-orthomaster.png" alt={`${ENTITY_DATA.name} Logo`} width={180} height={60} className="h-10 w-auto object-contain" />
+                        <button onClick={() => setIsOpen(false)} className="w-10 h-10 flex items-center justify-center rounded-lg text-[var(--color-text)] hover:bg-gray-100/50 transition-colors" aria-label="Cerrar">
+                            <X size={24} />
                         </button>
                     </div>
-                    <nav className="flex-1 px-4 py-6 flex flex-col gap-1">
-                        {navLinks.map(({ href, label }) => (
-                            <Link
-                                key={href}
-                                href={href}
-                                className={`px-4 py-3 rounded-lg text-base font-semibold transition-colors duration-200 ${isActive(href)
-                                    ? 'bg-[rgba(9,64,104,0.1)] text-[var(--color-primary)]'
-                                    : 'text-[var(--color-text)] hover:bg-gray-50 hover:text-[var(--color-primary)]'
-                                    }`}
-                            >
-                                {label}
-                            </Link>
-                        ))}
-                    </nav>
-                    <div className="px-4 pb-6 flex flex-col gap-3">
-                        <a href={`tel:${CONTACT_DATA.phone.main}`} className="flex items-center justify-center gap-2 px-4 py-3 border border-[var(--color-border)] rounded-lg text-sm font-medium text-[var(--color-text)]">
-                            <Phone size={16} />
+
+                    <div className="flex-1 overflow-y-auto py-8">
+                        <nav className="px-6 flex flex-col gap-2">
+                            {navLinks.map(({ href, label }) => (
+                                <Link
+                                    key={href}
+                                    href={href}
+                                    className={`px-4 py-4 rounded-xl text-lg font-bold transition-colors duration-200 ${isActive(href)
+                                        ? 'bg-[rgba(129,199,84,0.1)] text-[var(--color-accent)]'
+                                        : 'text-[var(--color-primary)] hover:bg-[rgba(129,199,84,0.05)] hover:text-[var(--color-accent)]'
+                                        }`}
+                                >
+                                    {label}
+                                </Link>
+                            ))}
+                        </nav>
+                    </div>
+
+                    <div className="px-6 pb-8 flex flex-col gap-4">
+                        <a href={`tel:${CONTACT_DATA.phone.main}`} className="flex items-center justify-center gap-2 px-4 py-4 border-2 border-[var(--color-primary)] rounded-xl text-base font-bold text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white transition-colors duration-200">
+                            <Phone size={18} />
                             {CONTACT_DATA.phone.main}
                         </a>
                     </div>

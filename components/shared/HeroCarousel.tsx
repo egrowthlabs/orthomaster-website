@@ -101,7 +101,7 @@ export function HeroCarousel({ lang, dictionary }: HeroCarouselProps) {
                         </div>
                     </div>
 
-                    <div className="hidden lg:block relative h-full w-full">
+                    {/* <div className="hidden lg:block relative h-full w-full">
                         <div className="absolute right-0 bottom-0 bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 border border-white/20">
                             <p className="font-black text-4xl text-white">{dictionary.stats.value}</p>
                             <p
@@ -109,7 +109,7 @@ export function HeroCarousel({ lang, dictionary }: HeroCarouselProps) {
                                 dangerouslySetInnerHTML={{ __html: dictionary.stats.label }}
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

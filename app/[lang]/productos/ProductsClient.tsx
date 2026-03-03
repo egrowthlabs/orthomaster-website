@@ -71,7 +71,7 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
     return (
         <>
             {/* Toolbar */}
-            <div className="bg-white border-b border-[var(--color-border)] sticky top-20 z-10">
+            <div className="bg-white border-b border-[var(--color-border)] sticky top-16 md:top-20 z-10">
                 <div className="container-site py-4">
                     <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
                         {/* Search */}

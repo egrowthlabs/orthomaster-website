@@ -47,8 +47,8 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/assets/img/favicon.png',
+    apple: '/assets/img/favicon.png', // Fallback or proper path if apple touch icon exists
   },
 };
 
