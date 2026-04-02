@@ -31,7 +31,7 @@
         "hero": {
             "badge": "Distribuidora Certificada COFEPRIS · ISO 13485",
             "title": "Especialistas en <span class='text-[#81c754]'>Trauma</span> y <span class='relative inline-block'>Ortopedia<span class='absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-[#81c754] to-transparent rounded-full'></span></span>",
-            "subtitle": "Equipamiento médico de precisión para hospitales y cirujanos. Más de 15 años proveyendo soluciones de calidad certificada a instituciones de salud en México.",
+            "subtitle": "Equipamiento médico de precisión para hospitales y cirujanos. Más de 9 años proveyendo soluciones de calidad certificada a instituciones de salud en México.",
             "viewCatalog": "Ver Catálogo",
             "trustChips": [
                 "Entrega Nacional",
@@ -50,6 +50,7 @@
         "whyUs": {
             "badge": "¿Por qué Orthomaster?",
             "title": "Calidad y Confianza en cada Procedimiento",
+            "description": "Orthomaster es una empresa mexicana líder en la distribución de equipamiento médico especializado en trauma, ortopedia y rehabilitación. Con más de 15 años de experiencia, proveemos a hospitales, clínicas y profesionales de la salud con productos de la más alta calidad, respaldados por certificaciones internacionales y soporte técnico especializado.",
             "learnMore": "Conoce más sobre nosotros"
         },
         "featured": {
@@ -64,9 +65,29 @@
         "statsTitle": "Impacto en Cifras",
         "mission": "Misión",
         "vision": "Visión",
+        "missionText": "Contribuimos y respaldamos a hospitales y profesionales de la salud distribuyendo productos y servicios de la más alta calidad, confiabilidad y seguridad, logrando ser líderes en el mercado, promoviendo oportunidades de desarrollo y satisfacción a nuestros colaboradores al ser una empresa íntegra.",
+        "visionText": "Satisfacer las necesidades de médicos y hospitales para que puedan proveer servicios de alta calidad impactando positivamente en la salud y bienestar de sus pacientes, ofreciendo productos innovadores con los más altos estándares de calidad, funcionalidad y seguridad, brindando atención profesional con personal altamente capacitado y calificado.",
         "principles": "Nuestros Principios",
         "valuesTitle": "Valores que nos guían",
         "valuesSubtitle": "Cada decisión en Orthomaster está respaldada por principios sólidos que garantizan la mejor experiencia para nuestros clientes.",
+        "valuesList": [
+            {
+                "title": "Calidad",
+                "description": "Productos certificados que cumplen los más altos estándares internacionales."
+            },
+            {
+                "title": "Precisión",
+                "description": "Equipamiento de alta tecnología para procedimientos quirúrgicos de exactitud."
+            },
+            {
+                "title": "Confianza",
+                "description": "Respaldo técnico especializado y garantía de servicio post-venta."
+            },
+            {
+                "title": "Innovación",
+                "description": "Siempre a la vanguardia con los últimos avances en tecnología médica."
+            }
+        ],
         "internationalSupport": "Respaldo Internacional",
         "certificationsTitle": "Certificaciones y Avales",
         "certificationsSubtitle": "Nuestros productos y procesos cumplen los más estrictos estándares internacionales de calidad.",

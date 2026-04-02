@@ -121,6 +121,7 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
                             </button>
                             {DISPLAY_CATEGORIES.map((cat) => {
                                 const isActive = activeMainCategory?.name === cat.name;
+                                const displayName = lang === 'en' && 'enName' in cat && cat.enName ? cat.enName : cat.name;
                                 return (
                                     <button
                                         key={cat.slug}
@@ -130,7 +131,7 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
                                             : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
                                             }`}
                                     >
-                                        {cat.name}
+                                        {displayName}
                                     </button>
                                 );
                             })}
@@ -146,20 +147,23 @@ export function ProductsClient({ products, categories, lang, dictionary }: Produ
                                         : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
                                         }`}
                                 >
-                                    Todos en {activeMainCategory.name}
+                                    {lang === 'en' ? 'All in' : 'Todos en'} {lang === 'en' && 'enName' in activeMainCategory && activeMainCategory.enName ? activeMainCategory.enName : activeMainCategory.name}
                                 </button>
-                                {activeMainCategory.subcategories.map(sub => (
-                                    <button
-                                        key={sub.slug}
-                                        onClick={() => setSelectedCategory(sub.name)}
-                                        className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${selectedCategory === sub.name
-                                            ? 'bg-[var(--color-secondary)] text-white shadow-md'
-                                            : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
-                                            }`}
-                                    >
-                                        {sub.name}
-                                    </button>
-                                ))}
+                                {activeMainCategory.subcategories.map(sub => {
+                                    const displaySubName = lang === 'en' && 'enName' in sub && sub.enName ? sub.enName : sub.name;
+                                    return (
+                                        <button
+                                            key={sub.slug}
+                                            onClick={() => setSelectedCategory(sub.name)}
+                                            className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${selectedCategory === sub.name
+                                                ? 'bg-[var(--color-secondary)] text-white shadow-md'
+                                                : 'bg-[var(--color-bg)] text-[var(--color-text-muted)] hover:bg-[var(--color-surface-alt)] border border-[var(--color-border)]'
+                                                }`}
+                                        >
+                                            {displaySubName}
+                                        </button>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>

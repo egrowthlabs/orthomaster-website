@@ -77,9 +77,9 @@ export const ENTITY_DATA = {
     legalName: 'Orthomaster S.A. de C.V.',
     tagline: 'Especialistas en Trauma y Ortopedia',
     subTagline: 'Equipamiento médico de precisión para profesionales de la salud',
-    bio: `Orthomaster es una empresa mexicana líder en la distribución de equipamiento médico especializado en trauma, ortopedia y rehabilitación. Con más de 15 años de experiencia, proveemos a hospitales, clínicas y profesionales de la salud con productos de la más alta calidad, respaldados por certificaciones internacionales y soporte técnico especializado.`,
-    mission: 'Proveer soluciones de equipamiento médico de excelencia que mejoren los resultados clínicos y la calidad de vida de los pacientes, apoyando a los profesionales de la salud con tecnología de vanguardia.',
-    vision: 'Ser la empresa distribuidora de equipamiento médico más confiable de México, reconocida por nuestra calidad, servicio y compromiso con la innovación en salud.',
+    bio: `Orthomaster es una empresa mexicana líder en la distribución de equipamiento médico especializado en trauma, ortopedia y rehabilitación. Con más de 9 años en el sector, hemos acompañado a especialistas brindando soluciones en ortopedia, traumatología y columna, consolidándonos como un referente en innovación, calidad y confianza.`,
+    mission: 'Contribuimos y respaldamos a hospitales y profesionales de la salud distribuyendo productos y servicios de la más alta calidad, confiabilidad y seguridad, logrando ser líderes en el mercado, promoviendo oportunidades de desarrollo y satisfacción a nuestros colaboradores al ser una empresa íntegra.',
+    vision: 'Satisfacer las necesidades de médicos y hospitales para que puedan proveer servicios de alta calidad impactando positivamente en la salud y bienestar de sus pacientes, ofreciendo productos innovadores con los más altos estándares de calidad, funcionalidad y seguridad, brindando atención profesional con personal altamente capacitado y calificado.',
     founded: 2009,
     certifications: [
         {
@@ -121,7 +121,7 @@ export const ENTITY_DATA = {
         },
     ],
     stats: [
-        { value: '+15', label: 'Años de Experiencia' },
+        { value: '+9', label: 'Años de Experiencia' },
         { value: '+500', label: 'Productos en Catálogo' },
         { value: '+200', label: 'Instituciones Atendidas' },
         { value: '+1,500', label: 'Cirujanos que confían en nosotros' },
@@ -130,7 +130,7 @@ export const ENTITY_DATA = {
         {
             name: 'Dr. Carlos Mendoza',
             role: 'Director Médico',
-            bio: 'Especialista en Traumatología y Ortopedia con 20 años de experiencia clínica.',
+            bio: 'Especialista en Traumatología y Ortopedia con 9 años de experiencia clínica.',
             image: '/assets/img/team-1.jpg',
         },
     ],
@@ -249,31 +249,35 @@ export const BRANDING: BrandingConfig = {
 export const DISPLAY_CATEGORIES = [
     {
         name: 'Sports Medicine',
+        enName: 'Sports Medicine',
         slug: 'sports-medicine',
         subcategories: [
-            { name: 'Equipos de Apoyo', slug: 'equipos-de-apoyo' },
-            { name: 'Inestabilidad', slug: 'inestabilidad' },
-            { name: 'LCA Y LCP', slug: 'lca-y-lcp' },
-            { name: 'Mango Rotador', slug: 'mango-rotador' },
-            { name: 'Menisco', slug: 'menisco' }
+            { name: 'Equipos de Apoyo', enName: 'Support Equipment', slug: 'equipos-de-apoyo' },
+            { name: 'Inestabilidad', enName: 'Instability', slug: 'inestabilidad' },
+            { name: 'LCA Y LCP', enName: 'ACL AND PCL', slug: 'lca-y-lcp' },
+            { name: 'Mango Rotador', enName: 'Rotator Cuff', slug: 'mango-rotador' },
+            { name: 'Menisco', enName: 'Meniscus', slug: 'menisco' }
         ]
     },
     {
         name: 'Reemplazo Articular',
+        enName: 'Joint Replacement',
         slug: 'reemplazo-articular',
         subcategories: [
-            { name: 'Cadera', slug: 'cadera' },
-            { name: 'Rodilla', slug: 'rodilla' },
-            { name: 'Vastagos', slug: 'vastagos' }
+            { name: 'Cadera', enName: 'Hip', slug: 'cadera' },
+            { name: 'Rodilla', enName: 'Knee', slug: 'rodilla' },
+            { name: 'Vastagos', enName: 'Stems', slug: 'vastagos' }
         ]
     },
     {
         name: 'Osteosíntesis',
+        enName: 'Osteosynthesis',
         slug: 'osteosintesis',
         subcategories: []
     },
     {
         name: 'Columna',
+        enName: 'Spine',
         slug: 'columna',
         subcategories: []
     }
@@ -351,3 +355,15 @@ export const EMAILJS_CONFIG = {
     templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? 'template_n4vopoe',
     publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? 'wAruIq3vUjrbkOvLp',
 };
+
+export function getLocalizedCategoryName(categoryName: string, lang: string): string {
+    if (lang !== 'en') return categoryName;
+    for (const cat of DISPLAY_CATEGORIES) {
+        if (cat.name === categoryName) return cat.enName || cat.name;
+        if (cat.subcategories) {
+            const sub = cat.subcategories.find(s => s.name === categoryName);
+            if (sub) return sub.enName || sub.name;
+        }
+    }
+    return categoryName;
+}

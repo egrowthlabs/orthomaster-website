@@ -50,6 +50,7 @@
         "whyUs": {
             "badge": "Why Orthomaster?",
             "title": "Quality and Trust in every Procedure",
+            "description": "Orthomaster is a leading Mexican company in the distribution of specialized medical equipment in trauma, orthopedics, and rehabilitation. With over 15 years of experience, we provide hospitals, clinics, and health professionals with the highest quality products, backed by international certifications and specialized technical support.",
             "learnMore": "Learn more about us"
         },
         "featured": {
@@ -64,9 +65,29 @@
         "statsTitle": "Impact in Figures",
         "mission": "Mission",
         "vision": "Vision",
+        "missionText": "We contribute to and support hospitals and health professionals by distributing products and services of the highest quality, reliability, and safety, achieving market leadership while promoting opportunities for development and satisfaction among our collaborators by being a company of integrity.",
+        "visionText": "To satisfy the needs of doctors and hospitals so they can provide high-quality services, positively impacting the health and well-being of their patients, offering innovative products with the highest standards of quality, functionality, and safety, while providing professional care with highly trained and qualified personnel.",
         "principles": "Our Principles",
         "valuesTitle": "Values that guide us",
         "valuesSubtitle": "Every decision at Orthomaster is backed by solid principles that guarantee the best experience for our clients.",
+        "valuesList": [
+            {
+                "title": "Quality",
+                "description": "Certified products that meet the highest international standards."
+            },
+            {
+                "title": "Precision",
+                "description": "High-tech equipment for exact surgical procedures."
+            },
+            {
+                "title": "Trust",
+                "description": "Specialized technical support and guaranteed after-sales service."
+            },
+            {
+                "title": "Innovation",
+                "description": "Always at the forefront with the latest advances in medical technology."
+            }
+        ],
         "internationalSupport": "International Support",
         "certificationsTitle": "Certifications and Endorsements",
         "certificationsSubtitle": "Our products and processes comply with the strictest international quality standards.",

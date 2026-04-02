@@ -6,7 +6,7 @@ import {
     ArrowLeft, ArrowRight, Package,
 } from 'lucide-react';
 import { getProductBySlug, getProducts, getProductSlugs, buildWhatsAppQuoteUrl } from '@/lib/wordpress';
-import { CONTACT_DATA, SEO_DEFAULTS } from '@/app/config';
+import { CONTACT_DATA, SEO_DEFAULTS, getLocalizedCategoryName } from '@/app/config';
 import { Badge } from '@/components/ui/Badge';
 import { ImageGallery } from './ImageGallery';
 import { getDictionary } from '@/lib/dictionary';
@@ -95,7 +95,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                     href={`/${l}/productos?categoria=${encodeURIComponent(product.categories[0])}`}
                                     className="hover:text-[var(--color-primary)] transition-colors"
                                 >
-                                    {product.categories[0]}
+                                    {getLocalizedCategoryName(product.categories[0], l)}
                                 </Link>
                             </>
                         )}
@@ -124,7 +124,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                                     <Link key={catName} href={`/${l}/productos?categoria=${encodeURIComponent(catName)}`}>
                                         <Badge variant="accent">
                                             <Tag size={10} className="mr-0.5" />
-                                            {catName}
+                                            {getLocalizedCategoryName(catName, l)}
                                         </Badge>
                                     </Link>
                                 ))}

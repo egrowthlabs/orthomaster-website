@@ -68,9 +68,11 @@ export async function getProducts(category?: string, lang: string = 'es'): Promi
     const allowedCategoryNames = new Map<string, string>();
     DISPLAY_CATEGORIES.forEach(c => {
         allowedCategoryNames.set(c.name.toLowerCase().trim(), c.name);
+        if (c.enName) allowedCategoryNames.set(c.enName.toLowerCase().trim(), c.name);
         if ('subcategories' in c && Array.isArray(c.subcategories)) {
             c.subcategories.forEach(sub => {
                 allowedCategoryNames.set(sub.name.toLowerCase().trim(), sub.name);
+                if (sub.enName) allowedCategoryNames.set(sub.enName.toLowerCase().trim(), sub.name);
             });
         }
     });
@@ -91,7 +93,8 @@ export async function getProducts(category?: string, lang: string = 'es'): Promi
             if (typeof cat !== 'string') return null;
             const normalized = cat.toLowerCase().trim();
             if (allowedCategoryNames.has(normalized)) {
-                return allowedCategoryNames.get(normalized)!; // Use exact case from config
+                // Siempre mapea a la llave principal en español para consistencia interna en Next.js
+                return allowedCategoryNames.get(normalized)!; 
             }
             return null;
         }).filter(Boolean) as string[];
@@ -136,9 +139,11 @@ export async function getProductBySlug(slug: string, lang: string = 'es'): Promi
     const allowedCategoryNames = new Map<string, string>();
     DISPLAY_CATEGORIES.forEach(c => {
         allowedCategoryNames.set(c.name.toLowerCase().trim(), c.name);
+        if (c.enName) allowedCategoryNames.set(c.enName.toLowerCase().trim(), c.name);
         if ('subcategories' in c && Array.isArray(c.subcategories)) {
             c.subcategories.forEach(sub => {
                 allowedCategoryNames.set(sub.name.toLowerCase().trim(), sub.name);
+                if (sub.enName) allowedCategoryNames.set(sub.enName.toLowerCase().trim(), sub.name);
             });
         }
     });

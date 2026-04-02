@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MessageCircle, Eye, Tag } from 'lucide-react';
 import type { WPProduct } from '@/types/wordpress';
-import { CONTACT_DATA } from '@/app/config';
+import { CONTACT_DATA, getLocalizedCategoryName } from '@/app/config';
 import { buildWhatsAppQuoteUrl } from '@/lib/wordpress';
 import { Badge } from '@/components/ui/Badge';
 
@@ -23,6 +23,7 @@ interface ProductCardProps {
 export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
     const mainImage = product.image;
     const category = product.categories?.[0];
+    const displayCategory = category ? getLocalizedCategoryName(category, lang) : undefined;
     const quoteUrl = buildWhatsAppQuoteUrl(CONTACT_DATA.whatsapp.number, product.title);
 
     return (
@@ -63,11 +64,11 @@ export function ProductCard({ product, lang, dictionary }: ProductCardProps) {
             {/* Content */}
             <div className="flex flex-col flex-1 p-5 gap-3">
                 {/* Category */}
-                {category && (
+                {displayCategory && (
                     <div className="flex items-center gap-1.5">
                         <Tag size={11} className="text-[var(--color-accent)]" />
                         <span className="text-xs font-semibold text-[var(--color-accent)] uppercase tracking-wider">
-                            {category}
+                            {displayCategory}
                         </span>
                     </div>
                 )}

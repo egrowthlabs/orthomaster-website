@@ -1,0 +1,122 @@
+[
+  {
+    "id": 26,
+    "name": "Cadera",
+    "slug": "cadera",
+    "description": "Sin descripción disponible",
+    "count": 3,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 5,
+    "name": "Columna",
+    "slug": "columna",
+    "description": "Sin descripción disponible",
+    "count": 20,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2026/03/orthomaster_categoria_columna.jpg"
+  },
+  {
+    "id": 23,
+    "name": "Equipos de Apoyo",
+    "slug": "equipos-de-apoyo",
+    "description": "Sin descripción disponible",
+    "count": 2,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 11,
+    "name": "Fijación Externa",
+    "slug": "fijacion-externa",
+    "description": "Sin descripción disponible",
+    "count": 0,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2018/04/banner4-fijacion.jpg"
+  },
+  {
+    "id": 18,
+    "name": "Inestabilidad",
+    "slug": "inestabilidad",
+    "description": "Sin descripción disponible",
+    "count": 5,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 22,
+    "name": "LCA Y LCP",
+    "slug": "lca-y-lcp",
+    "description": "Sin descripción disponible",
+    "count": 4,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 20,
+    "name": "Mango Rotador",
+    "slug": "mango-rotador",
+    "description": "Sin descripción disponible",
+    "count": 3,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 21,
+    "name": "Menisco",
+    "slug": "menisco",
+    "description": "Sin descripción disponible",
+    "count": 3,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 9,
+    "name": "Ortopedia Blanda",
+    "slug": "ortopedia-blanda",
+    "description": "Sin descripción disponible",
+    "count": 0,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2018/04/blanca.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Ortopedia Pediátrica",
+    "slug": "ortopedia-pediatrica",
+    "description": "Sin descripción disponible",
+    "count": 0,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2018/04/pediatrica.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Osteosíntesis",
+    "slug": "osteosintesis",
+    "description": "Sin descripción disponible",
+    "count": 17,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2026/03/orthomaster_categoria_osteosintesis.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Reemplazo Articular",
+    "slug": "reemplazo-articular",
+    "description": "Sin descripción disponible",
+    "count": 0,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2026/03/orthomaster_categoria_reemplazo_articular.jpeg"
+  },
+  {
+    "id": 25,
+    "name": "Rodilla",
+    "slug": "rodilla",
+    "description": "Sin descripción disponible",
+    "count": 2,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  },
+  {
+    "id": 7,
+    "name": "Sports Medicine",
+    "slug": "sports-medicine",
+    "description": "Sin descripción disponible",
+    "count": 0,
+    "image": "https://javierh48.sg-host.com/wp-content/uploads/2026/03/orthomaster_categoria_sports_medicine.jpeg"
+  },
+  {
+    "id": 27,
+    "name": "Vastagos",
+    "slug": "vastagos",
+    "description": "Sin descripción disponible",
+    "count": 2,
+    "image": "https://via.placeholder.com/400x300?text=Orthomaster"
+  }
+]

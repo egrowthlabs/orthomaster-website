@@ -55,10 +55,14 @@ export default async function HomePage({ params }: HomePageProps) {
     const wpCat = wpCategories.find(c => c.slug === config.slug);
     const fbCat = PRODUCT_CATEGORIES_FALLBACK.find(c => c.slug === config.slug);
 
-    // Prioritize WP data, then fallback, then placeholder
+    // Si estamos en inglés, forzamos usar enName si existe para no depender de que WP esté traducido aún.
+    const displayName = lang === 'en' && 'enName' in config && config.enName 
+      ? config.enName 
+      : (wpCat?.name || config.name);
+
     return {
       slug: wpCat?.slug || fbCat?.slug || config.slug,
-      name: wpCat?.name || config.name,
+      name: displayName,
       description: wpCat?.description || fbCat?.description || '',
       image: wpCat?.image || fbCat?.image || `https://via.placeholder.com/400x300?text=${encodeURIComponent(config.name)}`,
       color: fbCat?.color || 'var(--color-primary)'
@@ -214,7 +218,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 {dict.home.whyUs.title}
               </h2>
               <p className="text-[var(--color-text-muted)] text-base leading-relaxed mb-8">
-                {ENTITY_DATA.bio}
+                {dict.home.whyUs.description}
               </p>
               <Link
                 href={`/${lang}/nosotros`}
@@ -227,20 +231,23 @@ export default async function HomePage({ params }: HomePageProps) {
 
             {/* Right values grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {ENTITY_DATA.values.map((value) => (
-                <div
-                  key={value.title}
-                  className="flex flex-col gap-3 p-5 bg-[var(--color-bg)] rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:shadow-md transition-all duration-300"
-                >
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white shadow-md">
-                    {iconMap[value.icon] ?? <Award className="w-6 h-6" />}
+              {ENTITY_DATA.values.map((value, index) => {
+                const translatedValue = dict.about.valuesList[index];
+                return (
+                  <div
+                    key={value.title}
+                    className="flex flex-col gap-3 p-5 bg-[var(--color-bg)] rounded-2xl border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:shadow-md transition-all duration-300"
+                  >
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white shadow-md">
+                      {iconMap[value.icon] ?? <Award className="w-6 h-6" />}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[var(--color-text)] mb-1">{translatedValue?.title || value.title}</h3>
+                      <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">{translatedValue?.description || value.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[var(--color-text)] mb-1">{value.title}</h3>
-                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">{value.description}</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

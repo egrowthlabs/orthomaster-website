@@ -33,7 +33,7 @@ export default async function NosotrosPage({ params }: NosotrosPageProps) {
     const { lang } = await params;
     const l = lang as Locale;
     const dict = await getDictionary(l);
-    const yearsOfExperience = new Date().getFullYear() - ENTITY_DATA.founded;
+    const yearsOfExperience = 9;
 
     return (
         <div className="bg-[var(--color-bg)]">
@@ -65,7 +65,7 @@ export default async function NosotrosPage({ params }: NosotrosPageProps) {
                             {dict.about.experience.replace('{years}', yearsOfExperience.toString())}
                         </h1>
                         <p className="text-blue-50 text-xl leading-relaxed max-w-2xl">
-                            {ENTITY_DATA.bio}
+                            {dict.home.whyUs.description}
                         </p>
                     </div>
                 </div>
@@ -96,14 +96,14 @@ export default async function NosotrosPage({ params }: NosotrosPageProps) {
                                 <Target size={22} />
                             </div>
                             <h2 className="font-bold text-xl text-[var(--color-text)] mb-3">{dict.about.mission}</h2>
-                            <p className="text-[var(--color-text-muted)] leading-relaxed">{ENTITY_DATA.mission}</p>
+                            <p className="text-[var(--color-text-muted)] leading-relaxed">{dict.about.missionText}</p>
                         </div>
                         <div className="bg-white rounded-2xl border border-[var(--color-border)] p-8 hover:shadow-md transition-shadow">
                             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-primary-light)] flex items-center justify-center text-white mb-5 shadow-md">
                                 <Globe size={22} />
                             </div>
                             <h2 className="font-bold text-xl text-[var(--color-text)] mb-3">{dict.about.vision}</h2>
-                            <p className="text-[var(--color-text-muted)] leading-relaxed">{ENTITY_DATA.vision}</p>
+                            <p className="text-[var(--color-text-muted)] leading-relaxed">{dict.about.visionText}</p>
                         </div>
                     </div>
                 </div>
@@ -123,20 +123,23 @@ export default async function NosotrosPage({ params }: NosotrosPageProps) {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {ENTITY_DATA.values.map((value) => (
-                            <div
-                                key={value.title}
-                                className="group flex flex-col gap-4 p-6 rounded-2xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-                            >
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white shadow-md">
-                                    <Award size={22} />
+                        {ENTITY_DATA.values.map((value, index) => {
+                            const translatedValue = dict.about.valuesList[index];
+                            return (
+                                <div
+                                    key={value.title}
+                                    className="group flex flex-col gap-4 p-6 rounded-2xl bg-[var(--color-bg)] border border-[var(--color-border)] hover:border-[var(--color-primary)]/30 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                                >
+                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center text-white shadow-md">
+                                        <Award size={22} />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-[var(--color-text)] text-base mb-2">{translatedValue?.title || value.title}</h3>
+                                        <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">{translatedValue?.description || value.description}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-[var(--color-text)] text-base mb-2">{value.title}</h3>
-                                    <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">{value.description}</p>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -145,7 +148,7 @@ export default async function NosotrosPage({ params }: NosotrosPageProps) {
             <OfficesSection dictionary={dict.offices} />
 
             {/* Certifications */}
-            <section className="section-padding bg-[var(--color-bg)]">
+            {/* <section className="section-padding bg-[var(--color-bg)]">
                 <div className="container-site">
                     <div className="text-center mb-12">
                         <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)] mb-3 block">
@@ -180,7 +183,7 @@ export default async function NosotrosPage({ params }: NosotrosPageProps) {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* CTA */}
             <section className="section-padding bg-gradient-to-r from-[var(--color-primary-dark)] to-[var(--color-primary)] text-white">
