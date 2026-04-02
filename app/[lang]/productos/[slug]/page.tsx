@@ -6,6 +6,7 @@ import {
     ArrowLeft, ArrowRight, Package,
 } from 'lucide-react';
 import { getProductBySlug, getProducts, getProductSlugs, buildWhatsAppQuoteUrl } from '@/lib/wordpress';
+import { redirect } from 'next/navigation';
 import { CONTACT_DATA, SEO_DEFAULTS, getLocalizedCategoryName } from '@/app/config';
 import { Badge } from '@/components/ui/Badge';
 import { ImageGallery } from './ImageGallery';
@@ -60,16 +61,17 @@ export default async function ProductDetailPage({ params }: PageProps) {
     const dict = await getDictionary(l);
     const product = await getProductBySlug(slug, l);
 
-    if (!product) notFound();
+    if (!product) redirect(`/${l}/productos`);
 
+    // Non-null assertion: TypeScript doesn't narrow past redirect(), so we help it here
     // Fetch products to find the next one in the same main category
-    const mainCategory = product.categories?.[0];
+    const mainCategory = product!.categories?.[0];
     let nextProductSlug = null;
     let nextProductTitle = null;
 
     if (mainCategory) {
         const categoryProducts = await getProducts(mainCategory, l);
-        const currentIndex = categoryProducts.findIndex(p => p.slug === product.slug);
+        const currentIndex = categoryProducts.findIndex(item => item.slug === product!.slug);
 
         if (currentIndex !== -1 && currentIndex < categoryProducts.length - 1) {
             nextProductSlug = categoryProducts[currentIndex + 1].slug;
@@ -88,20 +90,20 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         <Link href={`/${l}`} className="hover:text-[var(--color-primary)] transition-colors">{dict.common.home}</Link>
                         <ChevronRight size={14} />
                         <Link href={`/${l}/productos`} className="hover:text-[var(--color-primary)] transition-colors">{dict.navbar.products}</Link>
-                        {product.categories?.[0] && (
+                        {product!.categories?.[0] && (
                             <>
                                 <ChevronRight size={14} />
                                 <Link
-                                    href={`/${l}/productos?categoria=${encodeURIComponent(product.categories[0])}`}
+                                    href={`/${l}/productos?categoria=${encodeURIComponent(product!.categories[0])}`}
                                     className="hover:text-[var(--color-primary)] transition-colors"
                                 >
-                                    {getLocalizedCategoryName(product.categories[0], l)}
+                                    {getLocalizedCategoryName(product!.categories[0], l)}
                                 </Link>
                             </>
                         )}
                         <ChevronRight size={14} />
                         <span className="text-[var(--color-text)] font-medium truncate max-w-[200px]">
-                            {product.title}
+                            {product!.title}
                         </span>
                     </nav>
                 </div>
@@ -112,15 +114,15 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-16 items-start">
                     {/* Left: Gallery */}
                     <div className="lg:sticky lg:top-32">
-                        <ImageGallery image={product.image} title={product.title} />
+                        <ImageGallery image={product!.image} title={product!.title} />
                     </div>
 
                     {/* Right: Product Info */}
                     <div className="flex flex-col gap-6">
                         {/* Categories */}
-                        {product.categories && product.categories.length > 0 && (
+                        {product!.categories && product!.categories.length > 0 && (
                             <div className="flex flex-wrap gap-2">
-                                {product.categories.map((catName) => (
+                                {product!.categories.map((catName) => (
                                     <Link key={catName} href={`/${l}/productos?categoria=${encodeURIComponent(catName)}`}>
                                         <Badge variant="accent">
                                             <Tag size={10} className="mr-0.5" />
@@ -133,30 +135,30 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
                         {/* Title */}
                         <h1 className="font-black text-3xl md:text-4xl text-[var(--color-text)] leading-tight tracking-tight">
-                            {product.title}
+                            {product!.title}
                         </h1>
 
                         {/* Marca */}
                         <div className="flex flex-wrap gap-4 text-sm text-[var(--color-text-muted)] -mt-2">
-                            {product.marca && (
+                            {product!.marca && (
                                 <span className="flex items-center gap-1.5 px-3 py-1 bg-[var(--color-surface-alt)] border border-[var(--color-border)] rounded-lg text-[var(--color-primary)] font-bold">
                                     <Package size={14} />
-                                    <span>{product.marca}</span>
+                                    <span>{product!.marca}</span>
                                 </span>
                             )}
-                            {product.sku && (
+                            {product!.sku && (
                                 <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg">
                                     <Hash size={13} />
-                                    <span className="font-mono font-medium">{product.sku}</span>
+                                    <span className="font-mono font-medium">{product!.sku}</span>
                                 </span>
                             )}
                         </div>
 
                         {/* Short Description (Fallback a Description) */}
-                        {(product.short_description || product.description) && (
+                        {(product!.short_description || product!.description) && (
                             <div
                                 className="text-[var(--color-text-muted)] text-base leading-relaxed prose prose-sm max-w-none mt-2 whitespace-pre-line prose-p:my-2 prose-ul:my-2"
-                                dangerouslySetInnerHTML={{ __html: product.short_description || product.description }}
+                                dangerouslySetInnerHTML={{ __html: product!.short_description || product!.description }}
                             />
                         )}
 
@@ -189,9 +191,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         )} */}
 
                         {/* Certificaciones del producto */}
-                        {product.certificaciones && product.certificaciones.length > 0 && (
+                        {product!.certificaciones && product!.certificaciones.length > 0 && (
                             <div className="flex flex-wrap gap-2">
-                                {product.certificaciones.map((cert) => (
+                                {product!.certificaciones.map((cert) => (
                                     <span
                                         key={cert}
                                         className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 border border-green-200 rounded-full text-xs font-semibold"

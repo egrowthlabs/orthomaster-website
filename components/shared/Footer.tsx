@@ -42,7 +42,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
                             />
                         </Link>
                         <p className="text-blue-200/80 text-sm leading-relaxed mb-5">
-                            {ENTITY_DATA.tagline}.
+                            {dictionary.description}
                         </p>
                         {/* <div className="flex flex-wrap gap-2">
                             {ENTITY_DATA.certifications.map((cert) => (
